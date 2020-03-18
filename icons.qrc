@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/add_48px.png</file>
+        <file>icons/add_list_48px.png</file>
+        <file>icons/icons8-save-48.png</file>
+        <file>icons/icons8-save-as-48.png</file>
+        <file>icons/open_pane_48px flipped.png</file>
+        <file>icons/open_pane_48px.png</file>
+        <file>icons/sort_down_48px.png</file>
+        <file>icons/sort_up_48px.png</file>
+        <file>icons/delete_bin_48px.png</file>
+        <file>icons/code_48px.png</file>
+        <file>icons/info_48px.png</file>
+        <file>icons/opened_folder_48px.png</file>
+        <file>icons/cut_48px.png</file>
+        <file>icons/paste_48px.png</file>
+        <file>icons/checked_checkbox_48px empty grey.png</file>
+        <file>icons/checked_checkbox_48px.png</file>
+        <file>icons/new_file_48px.png</file>
+        <file>icons/kanban128.png</file>
+    </qresource>
+</RCC>
