@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QSettings>
 #include <QToolButton>
 #include "aboutdialog.h"
 #include "kanbanboardwidget.h"
@@ -56,6 +57,7 @@ private:
     AboutDialog* aboutDialog = nullptr;
     QString mCurrentFilename;
     QByteArray mOriginalFileContents;
+    QSettings settings;
 
     bool isFileModified();
     bool saveOrSaveAs();
@@ -63,6 +65,12 @@ private:
     bool writeToFile(QString filename);
     void setCurrentFilename(QString filename);
     bool canBoardBeClosed();
+
+    QMenu mRecentsMenu;
+    QStringList mRecentFilenames;
+    void recentsMenuFromSettings();
+    void addRecentFile(QString filename);
+    QAction* createRecentsMenuAction(QString filename);
 
     // QWidget interface
 protected:

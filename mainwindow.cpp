@@ -3,7 +3,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    settings(QSettings::IniFormat, QSettings::UserScope, "noedig.com", "Kanbanapp")
 {
     ui->setupUi(this);
     ui->groupBox_debug->setVisible(false);
@@ -11,16 +12,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->boardWidget->setBoard(&mKanbanBoard);
 
+    // Set up open button and recents menu
     QToolButton* tb = new QToolButton();
     tb->setDefaultAction(ui->actionOpen);
-    QMenu* recentsMenu = new QMenu();
-    QAction* a = recentsMenu->addAction("No recent files");
-    a->setEnabled(false);
-    tb->setMenu(recentsMenu);
+    recentsMenuFromSettings();
+    tb->setMenu(&mRecentsMenu);
     tb->setIcon(QIcon(":/icons/opened_folder_48px.png"));
     tb->setPopupMode(QToolButton::MenuButtonPopup);
     ui->toolBar->insertWidget(ui->actionOpen, tb);
     ui->toolBar->removeAction(ui->actionOpen);
+    ui->actionNo_recent_files->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -127,6 +128,13 @@ bool MainWindow::writeToFile(QString filename)
 void MainWindow::setCurrentFilename(QString filename)
 {
     mCurrentFilename = filename;
+
+    // Add to recents
+    if (!filename.isEmpty()) {
+        addRecentFile(filename);
+    }
+
+    // Set window title
     QString basename;
     if (filename.isEmpty()) {
         basename = "New";
@@ -157,6 +165,64 @@ bool MainWindow::canBoardBeClosed()
     return close;
 }
 
+void MainWindow::recentsMenuFromSettings()
+{
+    int count = settings.beginReadArray("recents");
+    for (int i=0; i < count; i++) {
+        settings.setArrayIndex(i);
+        QString filename = settings.value("recentFilename").toString();
+        mRecentFilenames.append(filename);
+        mRecentsMenu.addAction(createRecentsMenuAction(filename));
+    }
+    settings.endArray();
+
+    if (mRecentsMenu.isEmpty()) {
+        mRecentsMenu.addAction(ui->actionNo_recent_files);
+    }
+}
+
+void MainWindow::addRecentFile(QString filename)
+{
+    if (mRecentFilenames.contains(filename)) {
+        // Already contains file. Move to front.
+        int index = mRecentFilenames.indexOf(filename);
+        mRecentFilenames.move(index, 0);
+        // Move in menu
+        QList<QAction*> acts = mRecentsMenu.actions();
+        QAction* a = acts[index];
+        mRecentsMenu.removeAction(a);
+        mRecentsMenu.insertAction(acts.first(), a);
+
+    } else {
+        // Add new recent file.
+        mRecentFilenames.insert(0, filename);
+        mRecentsMenu.insertAction(mRecentsMenu.actions().first(),
+                                  createRecentsMenuAction(filename));
+        // Remove "No recent files" action
+        mRecentsMenu.removeAction(ui->actionNo_recent_files);
+    }
+
+    // Save recent file list to settings
+    settings.beginWriteArray("recents");
+    for (int i=0; i < mRecentFilenames.count(); i++) {
+        settings.setArrayIndex(i);
+        settings.setValue("recentFilename", mRecentFilenames[i]);
+    }
+    settings.endArray();
+}
+
+QAction *MainWindow::createRecentsMenuAction(QString filename)
+{
+    QAction* action = new QAction();
+    action->setText(filename);
+    connect(action, &QAction::triggered, [this, filename](){
+        if (canBoardBeClosed()) {
+            openFile(filename);
+        }
+    });
+    return action;
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (canBoardBeClosed()) {
@@ -174,7 +240,7 @@ void MainWindow::on_actionSave_As_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     if (!aboutDialog) {
-        aboutDialog = new AboutDialog(this);
+        aboutDialog = new AboutDialog(settings.fileName(), this);
         aboutDialog->setWindowModality(Qt::ApplicationModal);
     }
     aboutDialog->show();

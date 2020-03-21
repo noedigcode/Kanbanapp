@@ -218,6 +218,11 @@
     <string>New board</string>
    </property>
   </action>
+  <action name="actionNo_recent_files">
+   <property name="text">
+    <string>No recent files</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
