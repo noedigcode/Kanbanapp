@@ -50,7 +50,7 @@ void KanbanBoardWidget::addList(KanbanList *list)
     KanbanListWidget* w = new KanbanListWidget();
 
     connect(w, &KanbanListWidget::cardToClipboard,
-            this, KanbanBoardWidget::onListWidgetCardToClipboard);
+            this, &KanbanBoardWidget::onListWidgetCardToClipboard);
     connect(w, &KanbanListWidget::requestCardPaste,
             this, &KanbanBoardWidget::onListWidgetRequestCardPaste);
     connect(w, &KanbanListWidget::titleToolbuttonClicked,

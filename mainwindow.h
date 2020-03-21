@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QToolButton>
 #include "aboutdialog.h"
 #include "kanbanboardwidget.h"
 #include "kanban.h"

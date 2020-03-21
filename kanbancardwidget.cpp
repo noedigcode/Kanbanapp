@@ -19,6 +19,7 @@ KanbanCardWidget::KanbanCardWidget(QWidget *parent) :
     timer.start(100);
 
     ui->plainTextEdit->viewport()->installEventFilter(this);
+    ui->plainTextEdit->setTabStopWidth(40);
 }
 
 KanbanCardWidget::~KanbanCardWidget()

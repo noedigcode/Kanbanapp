@@ -1,4 +1,4 @@
-![Kanbanapp Logo](icons/kanban64.png)
+![Kanbanapp Logo](icons/kanbanapp2.0_64.png)
 Kanbanapp
 ===========
 A simple offline Kanban-like app

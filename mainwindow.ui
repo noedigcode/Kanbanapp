@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
-    <normaloff>:/icons/kanban128.png</normaloff>:/icons/kanban128.png</iconset>
+    <normaloff>:/icons/kanbanapp2.0_128.png</normaloff>:/icons/kanbanapp2.0_128.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">

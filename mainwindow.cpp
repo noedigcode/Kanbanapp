@@ -10,6 +10,17 @@ MainWindow::MainWindow(QWidget *parent) :
     setCurrentFilename("");
 
     ui->boardWidget->setBoard(&mKanbanBoard);
+
+    QToolButton* tb = new QToolButton();
+    tb->setDefaultAction(ui->actionOpen);
+    QMenu* recentsMenu = new QMenu();
+    QAction* a = recentsMenu->addAction("No recent files");
+    a->setEnabled(false);
+    tb->setMenu(recentsMenu);
+    tb->setIcon(QIcon(":/icons/opened_folder_48px.png"));
+    tb->setPopupMode(QToolButton::MenuButtonPopup);
+    ui->toolBar->insertWidget(ui->actionOpen, tb);
+    ui->toolBar->removeAction(ui->actionOpen);
 }
 
 MainWindow::~MainWindow()
@@ -130,6 +141,8 @@ bool MainWindow::canBoardBeClosed()
     bool close = true;
     if (isFileModified()) {
         QMessageBox mb;
+        mb.setWindowTitle(mAppname);
+        mb.setIcon(QMessageBox::Question);
         mb.setWindowIcon(this->windowIcon());
         mb.setText("Do you want to save your changes?");
         mb.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
@@ -204,6 +217,8 @@ void MainWindow::on_actionDelete_List_triggered()
     if (!selectedList) { return; }
 
     QMessageBox mb;
+    mb.setWindowTitle(mAppname);
+    mb.setIcon(QMessageBox::Question);
     mb.setWindowIcon(this->windowIcon());
     mb.setText("Are you sure you want to delete list '" + selectedList->title() + "'?");
     mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
