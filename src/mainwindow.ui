@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
-    <normaloff>:/icons/kanbanapp2.0_128.png</normaloff>:/icons/kanbanapp2.0_128.png</iconset>
+    <normaloff>:/res/icons/kanbanapp2.0_128.png</normaloff>:/res/icons/kanbanapp2.0_128.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -116,7 +116,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/opened_folder_48px.png</normaloff>:/icons/opened_folder_48px.png</iconset>
+     <normaloff>:/res/icons/opened_folder_48px.png</normaloff>:/res/icons/opened_folder_48px.png</iconset>
    </property>
    <property name="text">
     <string>Open...</string>
@@ -125,7 +125,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/icons8-save-48.png</normaloff>:/icons/icons8-save-48.png</iconset>
+     <normaloff>:/res/icons/icons8-save-48.png</normaloff>:/res/icons/icons8-save-48.png</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -134,7 +134,7 @@
   <action name="actionDebug">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/code_48px.png</normaloff>:/icons/code_48px.png</iconset>
+     <normaloff>:/res/icons/code_48px.png</normaloff>:/res/icons/code_48px.png</iconset>
    </property>
    <property name="text">
     <string>Debug</string>
@@ -143,7 +143,7 @@
   <action name="actionSave_As">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/icons8-save-as-48.png</normaloff>:/icons/icons8-save-as-48.png</iconset>
+     <normaloff>:/res/icons/icons8-save-as-48.png</normaloff>:/res/icons/icons8-save-as-48.png</iconset>
    </property>
    <property name="text">
     <string>Save As...</string>
@@ -155,7 +155,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/info_48px.png</normaloff>:/icons/info_48px.png</iconset>
+     <normaloff>:/res/icons/info_48px.png</normaloff>:/res/icons/info_48px.png</iconset>
    </property>
    <property name="text">
     <string>About...</string>
@@ -164,7 +164,7 @@
   <action name="actionAdd_List">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/add_list_48px.png</normaloff>:/icons/add_list_48px.png</iconset>
+     <normaloff>:/res/icons/add_list_48px.png</normaloff>:/res/icons/add_list_48px.png</iconset>
    </property>
    <property name="text">
     <string>Add List</string>
@@ -176,7 +176,7 @@
   <action name="actionMove_List_Left">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/open_pane_48px.png</normaloff>:/icons/open_pane_48px.png</iconset>
+     <normaloff>:/res/icons/open_pane_48px.png</normaloff>:/res/icons/open_pane_48px.png</iconset>
    </property>
    <property name="text">
     <string>Move List Left</string>
@@ -188,7 +188,7 @@
   <action name="actionMove_List_Right">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/open_pane_48px flipped.png</normaloff>:/icons/open_pane_48px flipped.png</iconset>
+     <normaloff>:/res/icons/open_pane_48px flipped.png</normaloff>:/res/icons/open_pane_48px flipped.png</iconset>
    </property>
    <property name="text">
     <string>Move List Right</string>
@@ -200,7 +200,7 @@
   <action name="actionDelete_List">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/delete_bin_48px.png</normaloff>:/icons/delete_bin_48px.png</iconset>
+     <normaloff>:/res/icons/delete_bin_48px.png</normaloff>:/res/icons/delete_bin_48px.png</iconset>
    </property>
    <property name="text">
     <string>Delete List</string>
@@ -212,7 +212,7 @@
   <action name="actionNew_Board">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/new_file_48px.png</normaloff>:/icons/new_file_48px.png</iconset>
+     <normaloff>:/res/icons/new_file_48px.png</normaloff>:/res/icons/new_file_48px.png</iconset>
    </property>
    <property name="text">
     <string>New board</string>

@@ -12,7 +12,7 @@ MenuItem::MenuItem(QString text, QWidget *parent) : QWidget(parent)
     label->setMinimumWidth(100);
 
     QToolButton* tb = new QToolButton(this);
-    tb->setIcon(QIcon("://icons/delete_48px.png"));
+    tb->setIcon(QIcon(":/res/icons/delete_48px.png"));
     tb->setAutoRaise(true); // Hide border
     tb->setToolTip("Remove");
     connect(tb, &QToolButton::clicked, this, &MenuItem::buttonClicked);

@@ -1,4 +1,4 @@
-![Kanbanapp Logo](icons/kanbanapp2.0_64.png)
+![Kanbanapp Logo](res/icons/kanbanapp2.0_64.png)
 Kanbanapp
 ===========
 A simple offline Kanban-like app
@@ -6,7 +6,7 @@ A simple offline Kanban-like app
 
 2020 Gideon van der Kolf, noedigcode@gmail.com
 
-![Screenshot](icons/screenshot.png)
+![Screenshot](res/screenshot.png)
 
 Kanbanapp is a simple desktop application that allows you to organize notes
 (cards) in lists similar to a Kanban board.

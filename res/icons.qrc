@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/res/">
         <file>icons/add_48px.png</file>
         <file>icons/add_list_48px.png</file>
         <file>icons/icons8-save-48.png</file>

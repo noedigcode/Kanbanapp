@@ -36,9 +36,9 @@ void KanbanListWidget::setList(KanbanList *list)
 void KanbanListWidget::setTitleToolbuttonSelected(bool selected)
 {
     if (selected) {
-        ui->toolButton_listTitle->setIcon(QIcon(":/icons/checked_checkbox_48px.png"));
+        ui->toolButton_listTitle->setIcon(QIcon(":/res/icons/checked_checkbox_48px.png"));
     } else {
-        ui->toolButton_listTitle->setIcon(QIcon(":/icons/checked_checkbox_48px empty grey.png"));
+        ui->toolButton_listTitle->setIcon(QIcon(":/res/icons/checked_checkbox_48px empty grey.png"));
     }
 }
 

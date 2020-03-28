@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tb->setDefaultAction(ui->actionOpen);
     recentsMenuFromSettings();
     tb->setMenu(&mRecentsMenu);
-    tb->setIcon(QIcon(":/icons/opened_folder_48px.png"));
+    tb->setIcon(QIcon(":/res/icons/opened_folder_48px.png"));
     tb->setPopupMode(QToolButton::MenuButtonPopup);
     ui->toolBar->insertWidget(ui->actionOpen, tb);
     ui->toolBar->removeAction(ui->actionOpen);

@@ -18,35 +18,36 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += src
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    kanbanlistwidget.cpp \
-    kanban.cpp \
-    kanbancardwidget.cpp \
-    kanbanboardwidget.cpp \
-    aboutdialog.cpp \
-    menuitem.cpp
+        src/main.cpp \
+        src/mainwindow.cpp \
+        src/kanbanlistwidget.cpp \
+        src/kanban.cpp \
+        src/kanbancardwidget.cpp \
+        src/kanbanboardwidget.cpp \
+        src/aboutdialog.cpp \
+        src/menuitem.cpp
 
 HEADERS += \
-        mainwindow.h \
-    kanbanlistwidget.h \
-    kanban.h \
-    kanbancardwidget.h \
-    kanbanboardwidget.h \
-    aboutdialog.h \
-    menuitem.h
+        src/mainwindow.h \
+        src/kanbanlistwidget.h \
+        src/kanban.h \
+        src/kanbancardwidget.h \
+        src/kanbanboardwidget.h \
+        src/aboutdialog.h \
+        src/menuitem.h
 
 FORMS += \
-        mainwindow.ui \
-    kanbanlistwidget.ui \
-    kanbancardwidget.ui \
-    kanbanboardwidget.ui \
-    aboutdialog.ui
+        src/mainwindow.ui \
+        src/kanbanlistwidget.ui \
+        src/kanbancardwidget.ui \
+        src/kanbanboardwidget.ui \
+        src/aboutdialog.ui
 
-RESOURCES += \
-    icons.qrc
+RESOURCES += res/icons.qrc
 
 # Windows icon
-win32:RC_FILE += windowsicon.rc
+win32:RC_FILE += res/windowsicon.rc
+

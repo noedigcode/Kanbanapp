@@ -93,7 +93,7 @@ QFrame {
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">
-          <normaloff>:/icons/checked_checkbox_48px empty grey.png</normaloff>:/icons/checked_checkbox_48px empty grey.png</iconset>
+          <normaloff>:/res/icons/checked_checkbox_48px empty grey.png</normaloff>:/res/icons/checked_checkbox_48px empty grey.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -145,7 +145,7 @@ QFrame {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/sort_up_48px.png</normaloff>:/icons/sort_up_48px.png</iconset>
+         <normaloff>:/res/icons/sort_up_48px.png</normaloff>:/res/icons/sort_up_48px.png</iconset>
        </property>
       </widget>
      </item>
@@ -159,7 +159,7 @@ QFrame {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/sort_down_48px.png</normaloff>:/icons/sort_down_48px.png</iconset>
+         <normaloff>:/res/icons/sort_down_48px.png</normaloff>:/res/icons/sort_down_48px.png</iconset>
        </property>
       </widget>
      </item>
@@ -173,7 +173,7 @@ QFrame {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/add_48px.png</normaloff>:/icons/add_48px.png</iconset>
+         <normaloff>:/res/icons/add_48px.png</normaloff>:/res/icons/add_48px.png</iconset>
        </property>
       </widget>
      </item>
@@ -200,7 +200,7 @@ QFrame {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/cut_48px.png</normaloff>:/icons/cut_48px.png</iconset>
+         <normaloff>:/res/icons/cut_48px.png</normaloff>:/res/icons/cut_48px.png</iconset>
        </property>
       </widget>
      </item>
@@ -214,7 +214,7 @@ QFrame {
        </property>
        <property name="icon">
         <iconset resource="icons.qrc">
-         <normaloff>:/icons/paste_48px.png</normaloff>:/icons/paste_48px.png</iconset>
+         <normaloff>:/res/icons/paste_48px.png</normaloff>:/res/icons/paste_48px.png</iconset>
        </property>
       </widget>
      </item>
