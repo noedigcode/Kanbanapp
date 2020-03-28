@@ -48,7 +48,6 @@ void MainWindow::openFile(QString filename)
     }
 }
 
-
 void MainWindow::on_actionOpen_triggered()
 {
     if (!canBoardBeClosed()) { return; }
@@ -202,7 +201,11 @@ void MainWindow::addRecentFile(QString filename)
         mRecentsMenu.removeAction(ui->actionNo_recent_files);
     }
 
-    // Save recent file list to settings
+    saveRecentFileListToSettings();
+}
+
+void MainWindow::saveRecentFileListToSettings()
+{
     settings.beginWriteArray("recents");
     for (int i=0; i < mRecentFilenames.count(); i++) {
         settings.setArrayIndex(i);
@@ -213,13 +216,21 @@ void MainWindow::addRecentFile(QString filename)
 
 QAction *MainWindow::createRecentsMenuAction(QString filename)
 {
-    QAction* action = new QAction();
-    action->setText(filename);
-    connect(action, &QAction::triggered, [this, filename](){
+    QWidgetAction* action = new QWidgetAction(this);
+    MenuItem* item = new MenuItem(filename);
+    action->setDefaultWidget(item);
+    connect(action, &QWidgetAction::triggered, [this, filename](){
         if (canBoardBeClosed()) {
             openFile(filename);
         }
     });
+    connect(item, &MenuItem::buttonClicked, [this, action, filename](){
+        // Remove recent file from list and menu
+        mRecentFilenames.removeAll(filename);
+        mRecentsMenu.removeAction(action);
+        saveRecentFileListToSettings();
+    });
+
     return action;
 }
 

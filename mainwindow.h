@@ -8,9 +8,11 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QToolButton>
+#include <QWidgetAction>
 #include "aboutdialog.h"
 #include "kanbanboardwidget.h"
 #include "kanban.h"
+#include "menuitem.h"
 
 namespace Ui {
 class MainWindow;
@@ -70,6 +72,7 @@ private:
     QStringList mRecentFilenames;
     void recentsMenuFromSettings();
     void addRecentFile(QString filename);
+    void saveRecentFileListToSettings();
     QAction* createRecentsMenuAction(QString filename);
 
     // QWidget interface

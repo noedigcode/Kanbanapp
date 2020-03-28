@@ -18,5 +18,6 @@
         <file>icons/checked_checkbox_48px.png</file>
         <file>icons/new_file_48px.png</file>
         <file>icons/kanbanapp2.0_128.png</file>
+        <file>icons/delete_48px.png</file>
     </qresource>
 </RCC>

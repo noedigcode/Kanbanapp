@@ -26,7 +26,8 @@ SOURCES += \
     kanban.cpp \
     kanbancardwidget.cpp \
     kanbanboardwidget.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    menuitem.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -34,7 +35,8 @@ HEADERS += \
     kanban.h \
     kanbancardwidget.h \
     kanbanboardwidget.h \
-    aboutdialog.h
+    aboutdialog.h \
+    menuitem.h
 
 FORMS += \
         mainwindow.ui \

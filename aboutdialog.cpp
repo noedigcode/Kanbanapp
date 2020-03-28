@@ -15,3 +15,8 @@ AboutDialog::~AboutDialog()
 {
     delete ui;
 }
+
+void AboutDialog::on_pushButton_Ok_clicked()
+{
+    this->hide();
+}
