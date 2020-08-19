@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    settings(QSettings::IniFormat, QSettings::UserScope, "noedig.com", "Kanbanapp")
+    settings(QSettings::NativeFormat, QSettings::UserScope, "noedig.com", "Kanbanapp")
 {
     ui->setupUi(this);
     ui->groupBox_debug->setVisible(false);
