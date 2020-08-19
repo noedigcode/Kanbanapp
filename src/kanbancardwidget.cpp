@@ -19,7 +19,7 @@ KanbanCardWidget::KanbanCardWidget(QWidget *parent) :
     timer.start(100);
 
     ui->plainTextEdit->viewport()->installEventFilter(this);
-    ui->plainTextEdit->setTabStopWidth(40);
+    ui->plainTextEdit->setTabStopWidth(40); // Deprecated, but setTabStopDistance() was only introduced in Qt 5.10, so keeping this for compatability for now.
 }
 
 KanbanCardWidget::~KanbanCardWidget()
@@ -89,9 +89,11 @@ void KanbanCardWidget::resizeToContent()
     ui->plainTextEdit->setFixedHeight( docHeight + magic );
     int hdelta = ui->plainTextEdit->height() - hbefore;
     int currentHeight = height();
-    resize(width(), currentHeight + hdelta);
 
-    emit contentsChanged();
+    if (hdelta != 0) {
+        resize(width(), currentHeight + hdelta);
+        emit contentsChanged();
+    }
 }
 
 bool KanbanCardWidget::eventFilter(QObject* /*watched*/, QEvent *event)
