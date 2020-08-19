@@ -35,20 +35,14 @@ public slots:
 private slots:
     void listTitleChanged(QString title);
     void cardMoved(Card* card, int newIndex);
+
     void on_lineEdit_editingFinished();
-
     void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
     void on_toolButton_up_clicked();
-
     void on_toolButton_down_clicked();
-
     void on_toolButton_Add_clicked();
-
     void on_toolButton_cut_clicked();
-
     void on_toolButton_paste_clicked();
-
     void on_toolButton_listTitle_clicked();
 
 private:

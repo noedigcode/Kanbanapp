@@ -29,27 +29,16 @@ public:
     void openFile(QString filename);
 
 private slots:
-
     void on_actionOpen_triggered();
-
     void on_actionSave_triggered();
-
     void on_pushButton_debug_clicked();
-
     void on_actionDebug_triggered();
-
     void on_actionSave_As_triggered();
-
     void on_actionAbout_triggered();
-
     void on_actionAdd_List_triggered();
-
     void on_actionMove_List_Left_triggered();
-
     void on_actionMove_List_Right_triggered();
-
     void on_actionDelete_List_triggered();
-
     void on_actionNew_Board_triggered();
 
 private:

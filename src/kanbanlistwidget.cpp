@@ -44,7 +44,7 @@ void KanbanListWidget::setTitleToolbuttonSelected(bool selected)
 
 void KanbanListWidget::addCard(Card *card)
 {
-    addCardAtIndex(card, cardWidgetMap.count());
+    addCardAtIndex(card, ui->listWidget->currentRow()+1);
 }
 
 void KanbanListWidget::removeCard(Card *card)
