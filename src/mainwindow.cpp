@@ -182,6 +182,8 @@ void MainWindow::recentsMenuFromSettings()
 
 void MainWindow::addRecentFile(QString filename)
 {
+    filename = QDir::toNativeSeparators(filename);
+
     if (mRecentFilenames.contains(filename)) {
         // Already contains file. Move to front.
         int index = mRecentFilenames.indexOf(filename);
@@ -190,6 +192,7 @@ void MainWindow::addRecentFile(QString filename)
         QList<QAction*> acts = mRecentsMenu.actions();
         QAction* a = acts[index];
         mRecentsMenu.removeAction(a);
+        acts = mRecentsMenu.actions(); // Refresh
         mRecentsMenu.insertAction(acts.first(), a);
 
     } else {
