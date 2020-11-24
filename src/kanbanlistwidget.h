@@ -29,7 +29,7 @@ signals:
     void titleToolbuttonClicked(KanbanListWidget* listWidget);
 
 public slots:
-    void addCard(Card* card);
+    void addCard(Card* card, int index = -1);
     void removeCard(Card* card);
 
 private slots:

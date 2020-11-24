@@ -42,9 +42,14 @@ void KanbanListWidget::setTitleToolbuttonSelected(bool selected)
     }
 }
 
-void KanbanListWidget::addCard(Card *card)
+/* Add card at specified index. If index is out of bounds, the card is added
+ * at the bottom of the list. */
+void KanbanListWidget::addCard(Card *card, int index)
 {
-    addCardAtIndex(card, ui->listWidget->currentRow()+1);
+    if ((index < 0) || (index >= ui->listWidget->count())) {
+        index = ui->listWidget->count();
+    }
+    addCardAtIndex(card, index);
 }
 
 void KanbanListWidget::removeCard(Card *card)
@@ -131,7 +136,7 @@ void KanbanListWidget::on_toolButton_down_clicked()
 
 void KanbanListWidget::on_toolButton_Add_clicked()
 {
-    mList->addCard(new Card());
+    mList->addCard(new Card(), ui->listWidget->currentRow()+1);
 }
 
 void KanbanListWidget::on_toolButton_cut_clicked()

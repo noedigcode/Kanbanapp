@@ -45,7 +45,7 @@ public:
     QString title();
 
     QList<Card*> cards();
-    void addCard(Card* card);
+    void addCard(Card* card, int index = -1);
     int cardIndex(Card* card);
     void moveCard(Card* card, int newIndex);
     void takeCard(Card* card);
@@ -55,7 +55,7 @@ public:
 
 signals:
     void titleChanged(QString title);
-    void cardAdded(Card* card);
+    void cardAdded(Card* card, int index);
     void cardMoved(Card* card, int newIndex);
     void cardRemoved(Card* card);
 

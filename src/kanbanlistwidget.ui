@@ -92,7 +92,7 @@ QFrame {
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset resource="../res/icons.qrc">
           <normaloff>:/res/icons/checked_checkbox_48px empty grey.png</normaloff>:/res/icons/checked_checkbox_48px empty grey.png</iconset>
         </property>
         <property name="iconSize">
@@ -144,7 +144,7 @@ QFrame {
         <string>^</string>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../res/icons.qrc">
          <normaloff>:/res/icons/sort_up_48px.png</normaloff>:/res/icons/sort_up_48px.png</iconset>
        </property>
       </widget>
@@ -158,7 +158,7 @@ QFrame {
         <string>V</string>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../res/icons.qrc">
          <normaloff>:/res/icons/sort_down_48px.png</normaloff>:/res/icons/sort_down_48px.png</iconset>
        </property>
       </widget>
@@ -172,7 +172,7 @@ QFrame {
         <string>Add</string>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../res/icons.qrc">
          <normaloff>:/res/icons/add_48px.png</normaloff>:/res/icons/add_48px.png</iconset>
        </property>
       </widget>
@@ -199,7 +199,7 @@ QFrame {
         <string>Cut</string>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../res/icons.qrc">
          <normaloff>:/res/icons/cut_48px.png</normaloff>:/res/icons/cut_48px.png</iconset>
        </property>
       </widget>
@@ -213,7 +213,7 @@ QFrame {
         <string>Paste</string>
        </property>
        <property name="icon">
-        <iconset resource="icons.qrc">
+        <iconset resource="../res/icons.qrc">
          <normaloff>:/res/icons/paste_48px.png</normaloff>:/res/icons/paste_48px.png</iconset>
        </property>
       </widget>
@@ -242,7 +242,7 @@ QFrame {
   </layout>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../res/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

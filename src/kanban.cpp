@@ -55,11 +55,16 @@ QList<Card *> KanbanList::cards()
     return mCards;
 }
 
-void KanbanList::addCard(Card *card)
+/* Add card at specified index. If index -1 or out of range, card is added to
+ * the bottom of the list. */
+void KanbanList::addCard(Card *card, int index)
 {
     card->setParent(this);
-    mCards.append(card);
-    emit cardAdded(card);
+    if ((index < 0) || (index >= mCards.count())) {
+        index = mCards.count();
+    }
+    mCards.insert(index, card);
+    emit cardAdded(card, index);
 }
 
 int KanbanList::cardIndex(Card *card)
