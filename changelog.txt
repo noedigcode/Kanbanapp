@@ -1,0 +1,20 @@
+Changelog
+=========
+
+[1.0.1] - December 2021
+-----------------------
+
+Fixes
+
+- Double context menu on Linux
+- Card style/border now flat and boxy
+- Card height fudge recipe improved
+
+
+[1.0.0] - Some time ago
+-----------------------
+
+Added
+
+- Kanbanapp
+

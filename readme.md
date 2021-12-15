@@ -4,7 +4,7 @@ Kanbanapp
 A simple offline Kanban-like app
 --------------------------------
 
-2020 Gideon van der Kolf, noedigcode@gmail.com
+2021 Gideon van der Kolf, noedigcode@gmail.com
 
 ![Screenshot](res/screenshot.png)
 
