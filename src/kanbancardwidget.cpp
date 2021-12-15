@@ -82,11 +82,14 @@ void KanbanCardWidget::resizeToContent()
     if (!ui->plainTextEdit->isVisible()) { return; }
 
     int hbefore = ui->plainTextEdit->height();
-    int lineSpacing = ui->plainTextEdit->fontMetrics().lineSpacing();
-    int docHeight = ui->plainTextEdit->document()->size().height();
-    docHeight = docHeight*lineSpacing;
-    int magic = lineSpacing;
-    ui->plainTextEdit->setFixedHeight( docHeight + magic );
+
+    int lineHeight = ui->plainTextEdit->fontMetrics().boundingRect("M").height();
+    int lines = ui->plainTextEdit->document()->size().height();
+    int magic = lineHeight;
+    int docHeight = lineHeight * lines + magic;
+
+    ui->plainTextEdit->setFixedHeight( docHeight );
+
     int hdelta = ui->plainTextEdit->height() - hbefore;
     int currentHeight = height();
 
@@ -99,18 +102,24 @@ void KanbanCardWidget::resizeToContent()
 bool KanbanCardWidget::eventFilter(QObject* /*watched*/, QEvent *event)
 {
     bool ret = false; // False to pass event on, true to consume event
-    if (event->type() == QEvent::MouseButtonPress) {
+
+    if (event->type() == QEvent::ContextMenu) {
+
+        ret = true; // Do not pass event on to plainTextEdit
+
+        // Modify and show the standard context menu
+        QContextMenuEvent* menuEvent = static_cast<QContextMenuEvent*>(event);
+        QMenu* menu = ui->plainTextEdit->createStandardContextMenu(
+                    menuEvent->pos());
+        QAction* firstAction = menu->actions().at(0);
+        menu->insertAction(firstAction, &colorAction);
+        menu->insertSeparator(firstAction);
+        menu->popup(ui->plainTextEdit->mapToGlobal(menuEvent->pos()));
+
+    } else if (event->type() == QEvent::MouseButtonPress) {
+
         emit clicked();
-        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
-        if (mouseEvent->button() == Qt::RightButton) {
-            ret = true;
-            QMenu* menu = ui->plainTextEdit->createStandardContextMenu(
-                        mouseEvent->pos());
-            QAction* firstAction = menu->actions().at(0);
-            menu->insertAction(firstAction, &colorAction);
-            menu->insertSeparator(firstAction);
-            menu->popup(ui->plainTextEdit->mapToGlobal(mouseEvent->pos()));
-        }
+
     }
     return ret;
 }

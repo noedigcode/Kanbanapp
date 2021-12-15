@@ -45,11 +45,24 @@
        <pointsize>8</pointsize>
       </font>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::DefaultContextMenu</enum>
+     </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPlainTextEdit {background-color: #ffffff;}</string>
+      <string notr="true">QPlainTextEdit {
+	background-color: #ffffff;
+	padding: 0px;
+	margin: 0px;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
      </property>
      <property name="verticalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -58,7 +71,7 @@
       <enum>QAbstractScrollArea::AdjustIgnored</enum>
      </property>
      <property name="plainText">
-      <string/>
+      <string>asdf</string>
      </property>
      <property name="backgroundVisible">
       <bool>false</bool>
