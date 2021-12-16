@@ -1,18 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include "aboutdialog.h"
+#include "kanban.h"
+#include "kanbanboardwidget.h"
+#include "menuitem.h"
+
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QMainWindow>
 #include <QMessageBox>
 #include <QSettings>
 #include <QToolButton>
 #include <QWidgetAction>
-#include "aboutdialog.h"
-#include "kanbanboardwidget.h"
-#include "kanban.h"
-#include "menuitem.h"
 
 namespace Ui {
 class MainWindow;

@@ -1,11 +1,13 @@
 #ifndef KANBANBOARDWIDGET_H
 #define KANBANBOARDWIDGET_H
 
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QLabel>
 #include "kanban.h"
 #include "kanbanlistwidget.h"
+#include "signalFunction.h"
+
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QWidget>
 
 namespace Ui {
 class KanbanBoardWidget;
@@ -21,6 +23,8 @@ public:
 
     void setBoard(Board* board);
     KanbanList* selectedList();
+    void ensureListVisible(KanbanList* list);
+    void focusListTitle(KanbanList* list);
 
 public slots:
     void addList(KanbanList* list);
@@ -30,7 +34,7 @@ public slots:
 private slots:
     void onListWidgetCardToClipboard(Card* card);
     void onListWidgetRequestCardPaste(KanbanListWidget* listWidget);
-    void onListWidgetTitleButtonClicked(KanbanListWidget* listWidget);
+    void onListWidgetFocusReceived(KanbanListWidget* listWidget);
 
 private:
     Ui::KanbanBoardWidget *ui;

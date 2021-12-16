@@ -1,11 +1,13 @@
 #ifndef KANBANLISTWIDGET_H
 #define KANBANLISTWIDGET_H
 
-#include <QWidget>
-#include <QListWidgetItem>
-#include <QPushButton>
 #include "kanban.h"
 #include "kanbancardwidget.h"
+#include "signalFunction.h"
+
+#include <QListWidgetItem>
+#include <QPushButton>
+#include <QWidget>
 
 namespace Ui {
 class KanbanListWidget;
@@ -22,11 +24,16 @@ public:
     void setList(KanbanList* list);
     void setTitleToolbuttonSelected(bool selected);
 
+    int currentRow();
+    void ensureCardVisible(Card* card);
+    void focusTitle();
+    void focusCard(Card* card);
+
 signals:
     void cardSelected(Card* card); // Selected card or null if no card selected
     void cardToClipboard(Card* card);
     void requestCardPaste(KanbanListWidget* listWidget);
-    void titleToolbuttonClicked(KanbanListWidget* listWidget);
+    void focusReceived(KanbanListWidget* listWidget);
 
 public slots:
     void addCard(Card* card, int index = -1);
@@ -52,6 +59,10 @@ private:
     QMap<Card*, QListWidgetItem*> cardListItemMap;
 
     void addCardAtIndex(Card* card, int index);
+
+    // QObject interface
+public:
+    bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // KANBANLISTWIDGET_H

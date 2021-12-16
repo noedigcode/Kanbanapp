@@ -265,6 +265,9 @@ void MainWindow::on_actionAdd_List_triggered()
     KanbanList* list = new KanbanList();
     list->setTitle(QString("New List %1").arg(mKanbanBoard.lists().count()+1));
     mKanbanBoard.addList(list);
+
+    ui->boardWidget->ensureListVisible(list);
+    ui->boardWidget->focusListTitle(list);
 }
 
 void MainWindow::on_actionMove_List_Left_triggered()
@@ -277,6 +280,8 @@ void MainWindow::on_actionMove_List_Left_triggered()
     index -= 1;
     if (index < 0) { index = lists.count() - 1; }
     mKanbanBoard.moveList(selectedList, index);
+
+    ui->boardWidget->ensureListVisible(selectedList);
 }
 
 void MainWindow::on_actionMove_List_Right_triggered()
@@ -289,6 +294,8 @@ void MainWindow::on_actionMove_List_Right_triggered()
     index += 1;
     if (index >= lists.count()) { index = 0; }
     mKanbanBoard.moveList(selectedList, index);
+
+    ui->boardWidget->ensureListVisible(selectedList);
 }
 
 void MainWindow::on_actionDelete_List_triggered()

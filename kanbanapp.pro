@@ -37,7 +37,8 @@ HEADERS += \
         src/kanbancardwidget.h \
         src/kanbanboardwidget.h \
         src/aboutdialog.h \
-        src/menuitem.h
+        src/menuitem.h \
+        src/signalFunction.h
 
 FORMS += \
         src/mainwindow.ui \

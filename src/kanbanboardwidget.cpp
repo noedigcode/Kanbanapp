@@ -45,6 +45,28 @@ KanbanList *KanbanBoardWidget::selectedList()
     return map.key(selectedListWidget, nullptr);
 }
 
+void KanbanBoardWidget::ensureListVisible(KanbanList *list)
+{
+    // Double-dose to ensure scroll is done after layout and other stuff.
+    SignalFunction::call(this, [=](){
+        SignalFunction::call(this, [=](){
+
+            KanbanListWidget* w = map.value(list);
+            if (!w) { return; }
+
+            ui->scrollArea->ensureWidgetVisible(w);
+
+        });
+    });
+}
+
+void KanbanBoardWidget::focusListTitle(KanbanList *list)
+{
+    KanbanListWidget* w = map.value(list);
+    if (!w) { return; }
+    w->focusTitle();
+}
+
 void KanbanBoardWidget::addList(KanbanList *list)
 {
     KanbanListWidget* w = new KanbanListWidget();
@@ -53,8 +75,8 @@ void KanbanBoardWidget::addList(KanbanList *list)
             this, &KanbanBoardWidget::onListWidgetCardToClipboard);
     connect(w, &KanbanListWidget::requestCardPaste,
             this, &KanbanBoardWidget::onListWidgetRequestCardPaste);
-    connect(w, &KanbanListWidget::titleToolbuttonClicked,
-            this, &KanbanBoardWidget::onListWidgetTitleButtonClicked);
+    connect(w, &KanbanListWidget::focusReceived,
+            this, &KanbanBoardWidget::onListWidgetFocusReceived);
 
     w->setList(list);
     map.insert(list, w);
@@ -71,6 +93,8 @@ void KanbanBoardWidget::moveList(KanbanList *list, int newIndex)
 
     layout->removeWidget(w);
     layout->insertWidget(newIndex, w);
+
+    ui->scrollArea->ensureWidgetVisible(w);
 }
 
 void KanbanBoardWidget::removeList(KanbanList *list)
@@ -97,11 +121,14 @@ void KanbanBoardWidget::onListWidgetRequestCardPaste(KanbanListWidget *listWidge
 {
     if (mCardClipboard.count()) {
         KanbanList* list = map.key(listWidget);
-        list->addCard(mCardClipboard.takeLast());
+        Card* card = mCardClipboard.takeLast();
+        list->addCard(card, listWidget->currentRow() + 1);
+        listWidget->ensureCardVisible(card);
+        listWidget->focusCard(card);
     }
 }
 
-void KanbanBoardWidget::onListWidgetTitleButtonClicked(KanbanListWidget *listWidget)
+void KanbanBoardWidget::onListWidgetFocusReceived(KanbanListWidget *listWidget)
 {
     if (selectedListWidget) {
         selectedListWidget->setTitleToolbuttonSelected(false);

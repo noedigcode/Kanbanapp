@@ -1,11 +1,12 @@
 #ifndef KANBANCARD_H
 #define KANBANCARD_H
 
-#include <QWidget>
+#include "kanban.h"
+
 #include <QColorDialog>
 #include <QMenu>
 #include <QTimer>
-#include "kanban.h"
+#include <QWidget>
 
 namespace Ui {
 class KanbanCardWidget;
@@ -43,6 +44,8 @@ private:
 public:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 };
 
 #endif // KANBANCARD_H

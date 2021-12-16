@@ -1,12 +1,12 @@
 #ifndef KANBAN_H
 #define KANBAN_H
 
-#include <QObject>
 #include <QColor>
 #include <QFile>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
+#include <QObject>
 
 class Card : public QObject
 {

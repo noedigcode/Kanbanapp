@@ -1,11 +1,11 @@
 #ifndef MENUITEM_H
 #define MENUITEM_H
 
-#include <QWidget>
 #include <QEvent>
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QToolButton>
+#include <QWidget>
 
 class MenuItem : public QWidget
 {

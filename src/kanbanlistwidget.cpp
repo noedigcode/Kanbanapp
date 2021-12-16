@@ -1,12 +1,17 @@
 #include "kanbanlistwidget.h"
 #include "ui_kanbanlistwidget.h"
 
+#include <QKeyEvent>
+
 KanbanListWidget::KanbanListWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::KanbanListWidget)
 {
     ui->setupUi(this);
     setTitleToolbuttonSelected(false);
+
+    ui->lineEdit->installEventFilter(this);
+    ui->listWidget->installEventFilter(this);
 }
 
 KanbanListWidget::~KanbanListWidget()
@@ -40,6 +45,43 @@ void KanbanListWidget::setTitleToolbuttonSelected(bool selected)
     } else {
         ui->toolButton_listTitle->setIcon(QIcon(":/res/icons/checked_checkbox_48px empty grey.png"));
     }
+}
+
+int KanbanListWidget::currentRow()
+{
+    return ui->listWidget->currentRow();
+}
+
+void KanbanListWidget::ensureCardVisible(Card *card)
+{
+    SignalFunction::call(this, [=](){
+
+        QListWidgetItem* item = cardListItemMap.value(card);
+        if (!item) { return; }
+
+        ui->listWidget->scrollToItem(item);
+
+    });
+}
+
+void KanbanListWidget::focusTitle()
+{
+    ui->lineEdit->setFocus();
+    ui->lineEdit->selectAll();
+}
+
+void KanbanListWidget::focusCard(Card *card)
+{
+    SignalFunction::call(this, [=](){
+        QListWidgetItem* item = cardListItemMap.value(card);
+        if (!item) { return; }
+        KanbanCardWidget* w = cardWidgetMap.value(card);
+        if (!w) { return; }
+
+        ui->listWidget->setCurrentItem(item);
+        w->setFocus();
+        w->setTextEditorFocus();
+    });
 }
 
 /* Add card at specified index. If index is out of bounds, the card is added
@@ -97,11 +139,33 @@ void KanbanListWidget::addCardAtIndex(Card *card, int index)
     });
     connect(widget, &KanbanCardWidget::clicked, [this, item](){
         ui->listWidget->setCurrentItem(item);
+        emit focusReceived(this);
     });
     widget->setCard(card);
 
-    ui->listWidget->setCurrentItem(item);
-    widget->setTextEditorFocus();
+    widget->installEventFilter(this);
+}
+
+bool KanbanListWidget::eventFilter(QObject* watched, QEvent *event)
+{
+    if (event->type() == QEvent::FocusIn) {
+        emit focusReceived(this);
+    } else if (event->type() == QEvent::KeyPress) {
+
+        if (cardWidgetMap.values().contains((KanbanCardWidget*)watched)) {
+            QKeyEvent* k =  static_cast<QKeyEvent*>(event);
+            if (k->key() == Qt::Key_Return) {
+                if (k->modifiers() & Qt::ControlModifier) {
+                    // Ctrl+Enter was pressed. Create new card
+                    Card* card = new Card();
+                    mList->addCard(card, ui->listWidget->currentRow() + 1);
+                    ensureCardVisible(card);
+                    focusCard(card);
+                }
+            }
+        }
+    }
+    return false;
 }
 
 void KanbanListWidget::on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem* /*previous*/)
@@ -119,7 +183,10 @@ void KanbanListWidget::on_toolButton_up_clicked()
     if (newIndex < 0) {
         newIndex = cardWidgetMap.count() - 1;
     }
-    mList->moveCard(cardListItemMap.key(item), newIndex);
+    Card* card = cardListItemMap.key(item);
+    mList->moveCard(card, newIndex);
+    ensureCardVisible(card);
+    focusCard(card);
 }
 
 void KanbanListWidget::on_toolButton_down_clicked()
@@ -131,12 +198,18 @@ void KanbanListWidget::on_toolButton_down_clicked()
     if (newIndex >= cardWidgetMap.count()) {
         newIndex = 0;
     }
-    mList->moveCard(cardListItemMap.key(item), newIndex);
+    Card* card = cardListItemMap.key(item);
+    mList->moveCard(card, newIndex);
+    ensureCardVisible(card);
+    focusCard(card);
 }
 
 void KanbanListWidget::on_toolButton_Add_clicked()
 {
-    mList->addCard(new Card(), ui->listWidget->currentRow()+1);
+    Card* card = new Card();
+    mList->addCard(card, ui->listWidget->currentRow()+1);
+    ensureCardVisible(card);
+    focusCard(card);
 }
 
 void KanbanListWidget::on_toolButton_cut_clicked()
@@ -155,5 +228,5 @@ void KanbanListWidget::on_toolButton_paste_clicked()
 
 void KanbanListWidget::on_toolButton_listTitle_clicked()
 {
-    emit titleToolbuttonClicked(this);
+    emit focusReceived(this);
 }

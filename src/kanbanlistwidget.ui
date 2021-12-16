@@ -166,7 +166,7 @@ QFrame {
      <item>
       <widget class="QToolButton" name="toolButton_Add">
        <property name="toolTip">
-        <string>Add new card</string>
+        <string>Add new card (Ctrl + Enter)</string>
        </property>
        <property name="text">
         <string>Add</string>

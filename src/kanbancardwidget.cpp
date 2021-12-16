@@ -11,15 +11,13 @@ KanbanCardWidget::KanbanCardWidget(QWidget *parent) :
     connect(&colorAction, &QAction::triggered,
             this, &KanbanCardWidget::onColorAction);
 
-    connect(&timer, &QTimer::timeout, [this](){
-        if (ui->plainTextEdit->isVisible()) {
-            resizeToContent();
-        }
-    });
-    timer.start(100);
-
     ui->plainTextEdit->viewport()->installEventFilter(this);
-    ui->plainTextEdit->setTabStopWidth(40); // Deprecated, but setTabStopDistance() was only introduced in Qt 5.10, so keeping this for compatability for now.
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+    ui->plainTextEdit->setTabStopDistance(40);
+#else
+    ui->plainTextEdit->setTabStopWidth(40);
+#endif
 }
 
 KanbanCardWidget::~KanbanCardWidget()
@@ -122,4 +120,9 @@ bool KanbanCardWidget::eventFilter(QObject* /*watched*/, QEvent *event)
 
     }
     return ret;
+}
+
+void KanbanCardWidget::resizeEvent(QResizeEvent* /*event*/)
+{
+    resizeToContent();
 }
