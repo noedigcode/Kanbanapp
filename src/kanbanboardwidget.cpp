@@ -7,6 +7,14 @@ KanbanBoardWidget::KanbanBoardWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Prepare the board widget that will contain the lists.
+    // A base widget contains a horizontal layout.
+    // The layout initially contains an "empty board" label and a stretch spacer.
+    // When the label is visible, it overrides the stretch spacer (stretch of 1).
+    // When lists are added, the label is hidden (but remains in the layout) and
+    // the stretch spacer will keep the lists aligned to the left if the base
+    // while it isn't filled.
+
     layout = new QHBoxLayout();
     layout->setMargin(4);
     layout->setSpacing(4);
@@ -17,7 +25,9 @@ KanbanBoardWidget::KanbanBoardWidget(QWidget *parent) :
 
     mEmptyBoardLabel = new QLabel("Empty board - add a list to start", this);
     mEmptyBoardLabel->setAlignment(Qt::AlignCenter);
-    layout->addWidget(mEmptyBoardLabel);
+    layout->insertWidget(0, mEmptyBoardLabel, 1);
+
+    layout->addStretch(0);
 }
 
 KanbanBoardWidget::~KanbanBoardWidget()
@@ -81,9 +91,11 @@ void KanbanBoardWidget::addList(KanbanList *list)
     w->setList(list);
     map.insert(list, w);
 
-    layout->addWidget(w);
-    layout->removeWidget(mEmptyBoardLabel);
     mEmptyBoardLabel->hide();
+
+    // The emptyBoardLabel and stretch spacer always remain in the layout, so
+    // lists have to be inserted to the left of them, thus count - 2.
+    layout->insertWidget(layout->count() - 2, w);
 }
 
 void KanbanBoardWidget::moveList(KanbanList *list, int newIndex)
@@ -102,12 +114,12 @@ void KanbanBoardWidget::removeList(KanbanList *list)
     KanbanListWidget* w = map.value(list);
     if (selectedListWidget == w) {
         selectedListWidget = nullptr;
+        emit selectedListChanged(nullptr);
     }
     map.remove(list);
     delete w;
 
     if (map.isEmpty()) {
-        layout->addWidget(mEmptyBoardLabel);
         mEmptyBoardLabel->show();
     }
 }
@@ -133,6 +145,9 @@ void KanbanBoardWidget::onListWidgetFocusReceived(KanbanListWidget *listWidget)
     if (selectedListWidget) {
         selectedListWidget->setTitleToolbuttonSelected(false);
     }
+    bool changed = (selectedListWidget != listWidget);
     selectedListWidget = listWidget;
     selectedListWidget->setTitleToolbuttonSelected(true);
+
+    if (changed) { emit selectedListChanged(selectedList()); }
 }

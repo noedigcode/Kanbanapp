@@ -26,6 +26,9 @@ public:
     void ensureListVisible(KanbanList* list);
     void focusListTitle(KanbanList* list);
 
+signals:
+    void selectedListChanged(KanbanList* list);
+
 public slots:
     void addList(KanbanList* list);
     void moveList(KanbanList* list, int newIndex);

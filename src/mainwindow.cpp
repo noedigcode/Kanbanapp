@@ -10,6 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->groupBox_debug->setVisible(false);
     setCurrentFilename("");
 
+    connect(ui->boardWidget, &KanbanBoardWidget::selectedListChanged,
+            this, &MainWindow::onSelectedListChanged);
+
     ui->boardWidget->setBoard(&mKanbanBoard);
 
     // Set up open button and recents menu
@@ -22,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBar->insertWidget(ui->actionOpen, tb);
     ui->toolBar->removeAction(ui->actionOpen);
     ui->actionNo_recent_files->setEnabled(false);
+
+    onSelectedListChanged(nullptr);
 }
 
 MainWindow::~MainWindow()
@@ -46,6 +51,15 @@ void MainWindow::openFile(QString filename)
     } else {
         QMessageBox::critical(this, "Open", "Could not open file.");
     }
+}
+
+void MainWindow::onSelectedListChanged(KanbanList *list)
+{
+    bool enable = (list != nullptr);
+
+    ui->actionMove_List_Left->setEnabled(enable);
+    ui->actionMove_List_Right->setEnabled(enable);
+    ui->actionDelete_List->setEnabled(enable);
 }
 
 void MainWindow::on_actionOpen_triggered()

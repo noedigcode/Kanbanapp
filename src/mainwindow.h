@@ -30,6 +30,7 @@ public:
     void openFile(QString filename);
 
 private slots:
+    void onSelectedListChanged(KanbanList* list);
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_pushButton_debug_clicked();
