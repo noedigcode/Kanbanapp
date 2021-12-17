@@ -1,6 +1,23 @@
 Changelog
 =========
 
+[1.0.2] - December 2021
+-----------------------
+
+Changes
+
+- Lists and board now scrolls to ensure newly added and moved cards/lists are in view
+- List title is selected and focussed when new list is added
+- Pasted cards are inserted after currently selected
+- Add stretch in kanban board so lists are aligned to left when window isn't full yet
+- Disable list move/delete buttons if no list is selected
+
+Added
+
+- Ctrl+Enter from a card adds a new card
+- Lists are now automatically selected when title, card or list area is clicked
+
+
 [1.0.1] - December 2021
 -----------------------
 
