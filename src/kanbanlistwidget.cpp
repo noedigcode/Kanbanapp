@@ -141,6 +141,14 @@ void KanbanListWidget::addCardAtIndex(Card *card, int index)
         ui->listWidget->setCurrentItem(item);
         emit focusReceived(this);
     });
+    connect(widget, &KanbanCardWidget::splitLinesToCards, [=](QStringList lines){
+        int index = mList->cardIndex(card);
+        for (int i=0; i < lines.count(); i++) {
+            Card* c = new Card();
+            c->setText(lines.value(i));
+            mList->addCard(c, index + i + 1);
+        }
+    });
     widget->setCard(card);
 
     widget->installEventFilter(this);

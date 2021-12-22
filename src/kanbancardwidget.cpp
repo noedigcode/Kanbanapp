@@ -11,6 +11,10 @@ KanbanCardWidget::KanbanCardWidget(QWidget *parent) :
     connect(&colorAction, &QAction::triggered,
             this, &KanbanCardWidget::onColorAction);
 
+    splitLinesAction.setText("Split Lines to Cards");
+    connect(&splitLinesAction, &QAction::triggered,
+            this, &KanbanCardWidget::onSplitLinesAction);
+
     ui->plainTextEdit->viewport()->installEventFilter(this);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
@@ -66,6 +70,21 @@ void KanbanCardWidget::onColorAction()
     }
 }
 
+void KanbanCardWidget::onSplitLinesAction()
+{
+    if (!mCard) { return; }
+
+    QStringList lines = mCard->text().split("\n");
+
+    if (!lines.isEmpty()) {
+        mCard->setText(lines.takeFirst());
+    }
+
+    if (!lines.isEmpty()) {
+        emit splitLinesToCards(lines);
+    }
+}
+
 void KanbanCardWidget::on_plainTextEdit_textChanged()
 {
     QString text = ui->plainTextEdit->toPlainText();
@@ -111,6 +130,7 @@ bool KanbanCardWidget::eventFilter(QObject* /*watched*/, QEvent *event)
                     menuEvent->pos());
         QAction* firstAction = menu->actions().at(0);
         menu->insertAction(firstAction, &colorAction);
+        menu->insertAction(firstAction, &splitLinesAction);
         menu->insertSeparator(firstAction);
         menu->popup(ui->plainTextEdit->mapToGlobal(menuEvent->pos()));
 

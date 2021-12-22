@@ -26,11 +26,13 @@ public:
 signals:
     void contentsChanged(); // Possibly in need of resize
     void clicked();
+    void splitLinesToCards(QStringList lines);
 
 private slots:
     void setText(QString text);
     void setColor(QColor color);
     void onColorAction();
+    void onSplitLinesAction();
     void on_plainTextEdit_textChanged();
 
 private:
@@ -39,6 +41,7 @@ private:
     void resizeToContent();
     QTimer timer;
     QAction colorAction;
+    QAction splitLinesAction;
 
     // QObject interface
 public:
