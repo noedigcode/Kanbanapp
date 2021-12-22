@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDesktopServices>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -66,7 +68,8 @@ void MainWindow::on_actionOpen_triggered()
 {
     if (!canBoardBeClosed()) { return; }
 
-    QString filename = QFileDialog::getOpenFileName(this);
+    QString filename = QFileDialog::getOpenFileName(this, QString(), QString(),
+                                                    mFileFilter);
     if (filename.isEmpty()) { return; }
 
     openFile(filename);
@@ -116,8 +119,12 @@ bool MainWindow::saveOrSaveAs()
 
 bool MainWindow::saveAs()
 {
-    QString filename = QFileDialog::getSaveFileName(this);
+    QString filename = QFileDialog::getSaveFileName(this, QString(), QString(),
+                                                    mFileFilter);
     if (filename.isEmpty()) { return false; }
+    if (QFileInfo(filename).suffix().isEmpty()) {
+        filename += mExtension;
+    }
 
     if (writeToFile(filename)) {
         setCurrentFilename(filename);
@@ -241,11 +248,16 @@ QAction *MainWindow::createRecentsMenuAction(QString filename)
             openFile(filename);
         }
     });
-    connect(item, &MenuItem::buttonClicked, [this, action, filename](){
+    connect(item, &MenuItem::removeButtonClicked, [this, action, filename](){
         // Remove recent file from list and menu
         mRecentFilenames.removeAll(filename);
         mRecentsMenu.removeAction(action);
         saveRecentFileListToSettings();
+    });
+    connect(item, &MenuItem::openFolderButtonClicked, [=](){
+        // Open folder containing the file
+        QUrl url = QUrl::fromLocalFile(QFileInfo(filename).path());
+        QDesktopServices::openUrl(url);
     });
 
     return action;

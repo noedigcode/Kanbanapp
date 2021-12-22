@@ -40,11 +40,6 @@
    </property>
    <item>
     <widget class="QPlainTextEdit" name="plainTextEdit">
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::DefaultContextMenu</enum>
      </property>

@@ -18,7 +18,8 @@ public:
     QString text();
 
 signals:
-    void buttonClicked();
+    void removeButtonClicked();
+    void openFolderButtonClicked();
 
 private:
     QHBoxLayout* layout;

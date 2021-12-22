@@ -46,6 +46,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     const QString mAppname = "Kanbanapp";
+    const QString mExtension = ".kanban";
+    const QString mFileFilter = "Kanbanapp (*.kanban);; All files (*)";
     Board mKanbanBoard;
     AboutDialog* aboutDialog = nullptr;
     QString mCurrentFilename;
