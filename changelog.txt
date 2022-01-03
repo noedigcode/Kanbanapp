@@ -1,6 +1,22 @@
 Changelog
 =========
 
+[1.0.3] - January 2022
+----------------------
+
+Added
+
+- Split lines to cards context menu option for cards
+- Open folder in file manager button in recent items menu
+
+Changes
+
+- New colourful icon for removing recent item from menu
+- About dialog font tweaks and Icons8 link clickable
+- Card font not forced to small size anymore
+- Automatically add .kanban extension when saving files and filter in open & save dialogs
+
+
 [1.0.2] - December 2021
 -----------------------
 
