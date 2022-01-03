@@ -8,7 +8,9 @@ AboutDialog::AboutDialog(QString settingsPath, QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    ui->textBrowser->append(QString("\nSettings path: %1").arg(settingsPath));
+    QString html = ui->textBrowser->toHtml();
+    html.replace("%SETTINGS_PATH%", settingsPath);
+    ui->textBrowser->setHtml(html);
 }
 
 AboutDialog::~AboutDialog()
