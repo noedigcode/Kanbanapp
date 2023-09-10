@@ -1,6 +1,11 @@
 #include "kanbanboardwidget.h"
 #include "ui_kanbanboardwidget.h"
 
+#include <QEvent>
+#include <QMouseEvent>
+#include <QScrollBar>
+#include <QWheelEvent>
+
 KanbanBoardWidget::KanbanBoardWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::KanbanBoardWidget)
@@ -28,6 +33,10 @@ KanbanBoardWidget::KanbanBoardWidget(QWidget *parent) :
     layout->insertWidget(0, mEmptyBoardLabel, 1);
 
     layout->addStretch(0);
+
+    // Filter application mouse events for middle-click horizontal panning
+    // See eventFilter()
+    qApp->installEventFilter(this);
 }
 
 KanbanBoardWidget::~KanbanBoardWidget()
@@ -150,4 +159,72 @@ void KanbanBoardWidget::onListWidgetFocusReceived(KanbanListWidget *listWidget)
     selectedListWidget->setTitleToolbuttonSelected(true);
 
     if (changed) { emit selectedListChanged(selectedList()); }
+}
+
+bool KanbanBoardWidget::eventFilter(QObject* /*watched*/, QEvent *event)
+{
+    // Value that will be returned. True to prevent this event from propagating
+    // further, false if the event is not handled here.
+    bool accept = false;
+
+    switch (event->type()) {
+    case QEvent::MouseButtonPress:
+    {
+        QMouseEvent* mev = static_cast<QMouseEvent*>(event);
+        if (mev->button() == Qt::MiddleButton) {
+            if (this->underMouse()) {
+                // Middle mouse button press over this (kanban board) widget.
+                // Record current position, scroll value and set panning active.
+                mIsPanning = true;
+                mPanStartPos = mev->pos();
+                mPanStartScroll = ui->scrollArea->horizontalScrollBar()->value();
+                accept = true;
+            }
+        }
+        break;
+    }
+    case QEvent::MouseMove:
+    {
+        if (mIsPanning) {
+            // Mouse move. If panning is active, scroll the scroll area horizontally.
+            QMouseEvent* mev = static_cast<QMouseEvent*>(event);
+            ui->scrollArea->horizontalScrollBar()->setValue(
+                        mPanStartScroll + mPanStartPos.x() - mev->pos().x());
+        }
+        break;
+    }
+    case QEvent::MouseButtonRelease:
+    {
+        QMouseEvent* mev = static_cast<QMouseEvent*>(event);
+        if (mev->button() == Qt::MiddleButton) {
+            if (mIsPanning) {
+                // Middle mouse button release. If panning was active, set it to
+                // inactive.
+                mIsPanning = false;
+                accept = true;
+            }
+        }
+        break;
+    }
+    case QEvent::Wheel:
+    {
+        if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+            if (this->underMouse()) {
+                // Mouse wheel while shift is held, over this (kanban board)
+                // widget. Scroll horizontally.
+                QWheelEvent* wev = static_cast<QWheelEvent*>(event);
+                QPoint steps = wev->angleDelta() / 8 / 15;
+                ui->scrollArea->horizontalScrollBar()->setValue(
+                            ui->scrollArea->horizontalScrollBar()->value()
+                            - steps.y() * mHorizontalScrollSize);
+                accept = true;
+            }
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+    return accept;
 }

@@ -4,9 +4,15 @@ Changelog
 [1.0.4] - Unreleased
 --------------------
 
+Added
+
+- Pan (scroll) board horizontally with middle-click drag
+- Scroll board horizontally with mouse wheel while Shift is held
+- Ctrl+Enter shortcut for creating a new card now works with the numpad Enter too
+
 Fixes
 
-- Fix notes not resizing correctly when a file is opened from the command-line on some systems.
+- Fix notes not resizing correctly when a file is opened from the command-line on some systems
 
 
 [1.0.3] - January 2022
