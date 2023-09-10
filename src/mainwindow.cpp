@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBar->removeAction(ui->actionOpen);
     ui->actionNo_recent_files->setEnabled(false);
 
-    onSelectedListChanged(nullptr);
+    updateButtonsEnabledBasedOnListSelection();
 }
 
 MainWindow::~MainWindow()
@@ -55,13 +55,9 @@ void MainWindow::openFile(QString filename)
     }
 }
 
-void MainWindow::onSelectedListChanged(KanbanList *list)
+void MainWindow::onSelectedListChanged(KanbanList* /*list*/)
 {
-    bool enable = (list != nullptr);
-
-    ui->actionMove_List_Left->setEnabled(enable);
-    ui->actionMove_List_Right->setEnabled(enable);
-    ui->actionDelete_List->setEnabled(enable);
+    updateButtonsEnabledBasedOnListSelection();
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -261,6 +257,15 @@ QAction *MainWindow::createRecentsMenuAction(QString filename)
     });
 
     return action;
+}
+
+void MainWindow::updateButtonsEnabledBasedOnListSelection()
+{
+    bool enable = (ui->boardWidget->selectedList() != nullptr);
+
+    ui->actionMove_List_Left->setEnabled(enable);
+    ui->actionMove_List_Right->setEnabled(enable);
+    ui->actionDelete_List->setEnabled(enable);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

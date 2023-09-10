@@ -1,6 +1,14 @@
 Changelog
 =========
 
+[1.0.4] - Unreleased
+--------------------
+
+Fixes
+
+- Fix notes not resizing correctly when a file is opened from the command-line on some systems.
+
+
 [1.0.3] - January 2022
 ----------------------
 
