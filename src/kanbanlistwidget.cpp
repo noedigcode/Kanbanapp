@@ -162,9 +162,10 @@ bool KanbanListWidget::eventFilter(QObject* watched, QEvent *event)
 
         if (cardWidgetMap.values().contains((KanbanCardWidget*)watched)) {
             QKeyEvent* k =  static_cast<QKeyEvent*>(event);
-            if (k->key() == Qt::Key_Return) {
+            if ( (k->key() == Qt::Key_Return) || (k->key() == Qt::Key_Enter)) {
+                // Main Enter (Return) or Numlock Enter
                 if (k->modifiers() & Qt::ControlModifier) {
-                    // Ctrl+Enter was pressed. Create new card
+                    // Ctrl+Enter was pressed. Create new card.
                     Card* card = new Card();
                     mList->addCard(card, ui->listWidget->currentRow() + 1);
                     ensureCardVisible(card);

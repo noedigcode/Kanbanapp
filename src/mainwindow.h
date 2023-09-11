@@ -68,6 +68,8 @@ private:
     void saveRecentFileListToSettings();
     QAction* createRecentsMenuAction(QString filename);
 
+    void updateButtonsEnabledBasedOnListSelection();
+
     // QWidget interface
 protected:
     void closeEvent(QCloseEvent *event) override;

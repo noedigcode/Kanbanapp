@@ -48,6 +48,17 @@ private:
 
     QMap<KanbanList*, KanbanListWidget*> map;
     KanbanListWidget* selectedListWidget = nullptr;
+
+private:
+    // Horizontal middle-click drag panning
+    QPoint mPanStartPos;
+    int mPanStartScroll = 0;
+    bool mIsPanning = false;
+
+    // Horizontal mouse wheel scrolling
+    const int mHorizontalScrollSize = 100;
+
+    bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // KANBANBOARDWIDGET_H
