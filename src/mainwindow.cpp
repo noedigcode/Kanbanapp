@@ -6,7 +6,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    settings(QSettings::NativeFormat, QSettings::UserScope, "noedig.com", "Kanbanapp")
+    settings(QSettings::NativeFormat, QSettings::UserScope,
+             "noedig.com", "Kanbanapp")
 {
     ui->setupUi(this);
     ui->groupBox_debug->setVisible(false);
@@ -22,11 +23,21 @@ MainWindow::MainWindow(QWidget *parent) :
     tb->setDefaultAction(ui->actionOpen);
     recentsMenuFromSettings();
     tb->setMenu(&mRecentsMenu);
-    tb->setIcon(QIcon(":/res/icons/opened_folder_48px.png"));
+    tb->setIcon(ui->actionOpen->icon());
     tb->setPopupMode(QToolButton::MenuButtonPopup);
     ui->toolBar->insertWidget(ui->actionOpen, tb);
     ui->toolBar->removeAction(ui->actionOpen);
     ui->actionNo_recent_files->setEnabled(false);
+
+    QToolButton* tbsave = new QToolButton();
+    tbsave->setDefaultAction(ui->actionSave);
+    QMenu* mnopen = new QMenu(this);
+    mnopen->addAction(ui->actionSave_As);
+    tbsave->setMenu(mnopen);
+    tbsave->setIcon(ui->actionSave->icon());
+    tbsave->setPopupMode(QToolButton::MenuButtonPopup);
+    ui->toolBar->insertWidget(ui->actionSave, tbsave);
+    ui->toolBar->removeAction(ui->actionSave);
 
     onSelectedListChanged(nullptr);
 }
@@ -47,8 +58,8 @@ void MainWindow::openFile(QString filename)
         mOriginalFileContents = mKanbanBoard.toJsonText();
         if (!parseErrorString.isEmpty()) {
             QMessageBox::critical(this, "Open",
-                                  "A parsing error was encountered while opening the file: "
-                                  + parseErrorString);
+                "A parsing error was encountered while opening the file: "
+                + parseErrorString);
         }
     } else {
         QMessageBox::critical(this, "Open", "Could not open file.");
@@ -173,7 +184,8 @@ bool MainWindow::canBoardBeClosed()
         mb.setIcon(QMessageBox::Question);
         mb.setWindowIcon(this->windowIcon());
         mb.setText("Do you want to save your changes?");
-        mb.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        mb.setStandardButtons(QMessageBox::Save | QMessageBox::Discard |
+                              QMessageBox::Cancel);
         mb.setDefaultButton(QMessageBox::Save);
         int ret = mb.exec();
         if (ret == QMessageBox::Cancel) {
@@ -333,7 +345,8 @@ void MainWindow::on_actionDelete_List_triggered()
     mb.setWindowTitle(mAppname);
     mb.setIcon(QMessageBox::Question);
     mb.setWindowIcon(this->windowIcon());
-    mb.setText("Are you sure you want to delete list '" + selectedList->title() + "'?");
+    mb.setText("Are you sure you want to delete list '" +
+               selectedList->title() + "'?");
     mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     mb.setDefaultButton(QMessageBox::No);
     int ret = mb.exec();

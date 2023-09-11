@@ -101,10 +101,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionSave"/>
-   <addaction name="separator"/>
    <addaction name="actionOpen"/>
    <addaction name="actionNew_Board"/>
-   <addaction name="actionSave_As"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_List"/>
    <addaction name="actionMove_List_Left"/>
@@ -112,6 +110,7 @@
    <addaction name="actionDelete_List"/>
    <addaction name="separator"/>
    <addaction name="actionAbout"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
