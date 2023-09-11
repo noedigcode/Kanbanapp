@@ -10,6 +10,10 @@ Added
 - Scroll board horizontally with mouse wheel while Shift is held
 - Ctrl+Enter shortcut for creating a new card now works with the numpad Enter too
 
+Changes
+
+- Merge save and save-as buttons, with save-as now in a submenu
+
 Fixes
 
 - Fix notes not resizing correctly when a file is opened from the command-line on some systems
