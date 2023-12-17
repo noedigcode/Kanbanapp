@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include <QObject>
 
+// =============================================================================
+
 class Card : public QObject
 {
     Q_OBJECT
@@ -28,12 +30,12 @@ signals:
 
 private:
     QString mText;
+    // Background color defaults to invalid QColor, so display can decide how to
+    // display it, i.e. use system background color.
     QColor mColor;
-    const QColor mDefaultColor{Qt::white};
 };
 
-
-
+// =============================================================================
 
 class KanbanList : public QObject
 {
@@ -64,8 +66,7 @@ private:
     QList<Card*> mCards;
 };
 
-
-
+// =============================================================================
 
 class Board : public QObject
 {

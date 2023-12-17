@@ -60,6 +60,7 @@ private:
     bool writeToFile(QString filename);
     void setCurrentFilename(QString filename);
     bool canBoardBeClosed();
+    void forceNewBoard();
 
     QMenu mRecentsMenu;
     QStringList mRecentFilenames;

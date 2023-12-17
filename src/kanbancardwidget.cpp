@@ -11,6 +11,10 @@ KanbanCardWidget::KanbanCardWidget(QWidget *parent) :
     connect(&colorAction, &QAction::triggered,
             this, &KanbanCardWidget::onColorAction);
 
+    resetColorAction.setText("Reset Card Color");
+    connect(&resetColorAction, &QAction::triggered,
+            this, &KanbanCardWidget::onResetColorAction);
+
     splitLinesAction.setText("Split Lines to Cards");
     connect(&splitLinesAction, &QAction::triggered,
             this, &KanbanCardWidget::onSplitLinesAction);
@@ -57,8 +61,24 @@ void KanbanCardWidget::setText(QString text)
 
 void KanbanCardWidget::setColor(QColor color)
 {
+    if (!color.isValid()) {
+        color = QGuiApplication::palette().color(QPalette::Base);
+    }
+
+    QColor textColor;
+
+    // From https://alienryderflex.com/hsp.html,
+    // https://forum.qt.io/topic/106362/best-way-to-set-text-color-for-maximum-contrast-on-background-color/3
+    int brightness = 0.299*color.red() + 0.587*color.green() + 0.114*color.blue();
+    if (brightness > 127) {
+        textColor = Qt::black;
+    } else {
+        textColor = Qt::white;
+    }
+
     ui->plainTextEdit->setStyleSheet(
-                QString("QPlainTextEdit {background-color: %1;}")
+                QString("QPlainTextEdit {color: %1; background-color: %2;}")
+                .arg(textColor.name())
                 .arg(color.name()));
 }
 
@@ -68,6 +88,12 @@ void KanbanCardWidget::onColorAction()
     if (c.isValid()) {
         mCard->setColor(c);
     }
+}
+
+void KanbanCardWidget::onResetColorAction()
+{
+    // Set invalid color
+    mCard->setColor(QColor());
 }
 
 void KanbanCardWidget::onSplitLinesAction()
@@ -130,6 +156,7 @@ bool KanbanCardWidget::eventFilter(QObject* /*watched*/, QEvent *event)
                     menuEvent->pos());
         QAction* firstAction = menu->actions().at(0);
         menu->insertAction(firstAction, &colorAction);
+        menu->insertAction(firstAction, &resetColorAction);
         menu->insertAction(firstAction, &splitLinesAction);
         menu->insertSeparator(firstAction);
         menu->popup(ui->plainTextEdit->mapToGlobal(menuEvent->pos()));

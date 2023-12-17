@@ -61,9 +61,15 @@ void MainWindow::openFile(QString filename)
             QMessageBox::critical(this, "Open",
                 "A parsing error was encountered while opening the file: "
                 + parseErrorString);
+            // Create new file so the incorrectly loaded file doesn't get
+            // overwritten accidentally
+            forceNewBoard();
         }
     } else {
         QMessageBox::critical(this, "Open", "Could not open file.");
+        // Create new file so the incorrectly loaded file doesn't get
+        // overwritten accidentally
+        forceNewBoard();
     }
 }
 
@@ -192,6 +198,13 @@ bool MainWindow::canBoardBeClosed()
         }
     }
     return close;
+}
+
+void MainWindow::forceNewBoard()
+{
+    mKanbanBoard.clear();
+    setCurrentFilename("");
+    mOriginalFileContents = "";
 }
 
 void MainWindow::recentsMenuFromSettings()
@@ -364,8 +377,6 @@ void MainWindow::on_actionDelete_List_triggered()
 void MainWindow::on_actionNew_Board_triggered()
 {
     if (canBoardBeClosed()) {
-        mKanbanBoard.clear();
-        setCurrentFilename("");
-        mOriginalFileContents = "";
+        forceNewBoard();
     }
 }

@@ -32,6 +32,7 @@ private slots:
     void setText(QString text);
     void setColor(QColor color);
     void onColorAction();
+    void onResetColorAction();
     void onSplitLinesAction();
     void on_plainTextEdit_textChanged();
 
@@ -41,6 +42,7 @@ private:
     void resizeToContent();
     QTimer timer;
     QAction colorAction;
+    QAction resetColorAction;
     QAction splitLinesAction;
 
     // QObject interface

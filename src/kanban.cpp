@@ -2,7 +2,7 @@
 
 Card::Card(QObject *parent) : QObject(parent)
 {
-    mColor = mDefaultColor;
+
 }
 
 void Card::setText(QString text)
@@ -20,9 +20,6 @@ QString Card::text()
 
 void Card::setColor(QColor color)
 {
-    if (!color.isValid()) {
-        color = mDefaultColor;
-    }
     if (mColor != color) {
         mColor = color;
         emit colorChanged(color);
@@ -221,7 +218,14 @@ QJsonObject Card::toJson()
 {
     QJsonObject j;
     j["text"] = mText;
-    j["color"] = mColor.name();
+
+    // Store invalid color as blank string. Display will decide how to handle it,
+    // i.e. use system colors.
+    QString colorText;
+    if (mColor.isValid()) {
+        colorText = mColor.name();
+    }
+    j["color"] = colorText;
     return j;
 }
 
