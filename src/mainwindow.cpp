@@ -18,29 +18,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->boardWidget->setBoard(&mKanbanBoard);
 
-    // Set up open button and recents menu
-    QToolButton* tb = new QToolButton();
-    tb->setDefaultAction(ui->actionOpen);
+    setupRecents();
     recentsMenuFromSettings();
-    tb->setMenu(&mRecentsMenu);
-    tb->setIcon(ui->actionOpen->icon());
-    tb->setPopupMode(QToolButton::MenuButtonPopup);
-    ui->toolBar->insertWidget(ui->actionOpen, tb);
-    ui->toolBar->removeAction(ui->actionOpen);
-    ui->actionNo_recent_files->setEnabled(false);
+    setupOpenButtonMenu();
+    setupSaveButtonMenu();
 
-    // Set up save button and save-as in submenu
-    QToolButton* tbsave = new QToolButton();
-    tbsave->setDefaultAction(ui->actionSave);
-    QMenu* mnopen = new QMenu(this);
-    mnopen->addAction(ui->actionSave_As);
-    tbsave->setMenu(mnopen);
-    tbsave->setIcon(ui->actionSave->icon());
-    tbsave->setPopupMode(QToolButton::MenuButtonPopup);
-    ui->toolBar->insertWidget(ui->actionSave, tbsave);
-    ui->toolBar->removeAction(ui->actionSave);
+    updateButtonsEnabledStates();
 
-    updateButtonsEnabledBasedOnListSelection();
+    // Display board or recents page
+    if (mCurrentFilename.isEmpty() && !mRecentsMenu.isEmpty()) {
+        showRecentsPage();
+    } else {
+        showMainBoardPage();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -71,11 +61,13 @@ void MainWindow::openFile(QString filename)
         // overwritten accidentally
         forceNewBoard();
     }
+
+    showMainBoardPage();
 }
 
 void MainWindow::onSelectedListChanged(KanbanList* /*list*/)
 {
-    updateButtonsEnabledBasedOnListSelection();
+    updateButtonsEnabledStates();
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -207,91 +199,144 @@ void MainWindow::forceNewBoard()
     mOriginalFileContents = "";
 }
 
+void MainWindow::setupRecents()
+{
+    // Recents menu
+    mRecentsMenuAdapter.init(&mRecentsMenu, &mRecents);
+    connect(&mRecentsMenuAdapter, &RecentsMenuAdapter::openFileTriggered,
+            this, [=](QString filename)
+    {
+        if (canBoardBeClosed()) {
+            openFile(filename);
+        }
+    });
+    connect(&mRecentsMenuAdapter, &RecentsMenuAdapter::openFolderButtonClicked,
+            this, [=](QString filename)
+    {
+        QUrl url = QUrl::fromLocalFile(QFileInfo(filename).path());
+        QDesktopServices::openUrl(url);
+    });
+
+    // Recents list
+    mRecentsListAdapter.init(ui->listWidget_recents, &mRecents);
+    connect(&mRecentsListAdapter, &RecentsListAdapter::openFileTriggered,
+            this, [=](QString filename)
+    {
+        if (canBoardBeClosed()) {
+            openFile(filename);
+        }
+    });
+    connect(&mRecentsListAdapter, &RecentsListAdapter::openFolderButtonClicked,
+            this, [=](QString filename)
+    {
+        QUrl url = QUrl::fromLocalFile(QFileInfo(filename).path());
+        QDesktopServices::openUrl(url);
+    });
+
+    // Other connections
+    connect(&mRecents, &Recents::itemAdded,
+            this, [=](QString /*filename*/, int /*index*/)
+    {
+        saveRecentFileListToSettings();
+    });
+
+    connect(&mRecents, &Recents::itemMoved,
+            this, [=](QString /*filename*/, int /*from*/, int /*to*/)
+    {
+        saveRecentFileListToSettings();
+    });
+
+    connect(&mRecents, &Recents::itemRemoved,
+           this, [=](QString /*filename*/)
+    {
+        saveRecentFileListToSettings();
+    });
+}
+
 void MainWindow::recentsMenuFromSettings()
 {
     int count = settings.beginReadArray("recents");
     for (int i=0; i < count; i++) {
         settings.setArrayIndex(i);
         QString filename = settings.value("recentFilename").toString();
-        mRecentFilenames.append(filename);
-        mRecentsMenu.addAction(createRecentsMenuAction(filename));
+        mRecents.addItem(filename);
     }
     settings.endArray();
-
-    if (mRecentsMenu.isEmpty()) {
-        mRecentsMenu.addAction(ui->actionNo_recent_files);
-    }
 }
 
 void MainWindow::addRecentFile(QString filename)
 {
     filename = QDir::toNativeSeparators(filename);
-
-    if (mRecentFilenames.contains(filename)) {
-        // Already contains file. Move to front.
-        int index = mRecentFilenames.indexOf(filename);
-        mRecentFilenames.move(index, 0);
-        // Move in menu
-        QList<QAction*> acts = mRecentsMenu.actions();
-        QAction* a = acts[index];
-        mRecentsMenu.removeAction(a);
-        acts = mRecentsMenu.actions(); // Refresh
-        mRecentsMenu.insertAction(acts.first(), a);
-
-    } else {
-        // Add new recent file.
-        mRecentFilenames.insert(0, filename);
-        mRecentsMenu.insertAction(mRecentsMenu.actions().first(),
-                                  createRecentsMenuAction(filename));
-        // Remove "No recent files" action
-        mRecentsMenu.removeAction(ui->actionNo_recent_files);
-    }
-
-    saveRecentFileListToSettings();
+    mRecents.addItem(filename, 0);
 }
 
 void MainWindow::saveRecentFileListToSettings()
 {
+    QStringList filenames = mRecents.items();
+
     settings.beginWriteArray("recents");
-    for (int i=0; i < mRecentFilenames.count(); i++) {
+    for (int i=0; i < filenames.count(); i++) {
         settings.setArrayIndex(i);
-        settings.setValue("recentFilename", mRecentFilenames[i]);
+        settings.setValue("recentFilename", filenames[i]);
     }
     settings.endArray();
 }
 
-QAction *MainWindow::createRecentsMenuAction(QString filename)
+void MainWindow::setupOpenButtonMenu()
 {
-    QWidgetAction* action = new QWidgetAction(this);
-    MenuItem* item = new MenuItem(filename);
-    action->setDefaultWidget(item);
-    connect(action, &QWidgetAction::triggered, [this, filename](){
-        if (canBoardBeClosed()) {
-            openFile(filename);
-        }
-    });
-    connect(item, &MenuItem::removeButtonClicked, [this, action, filename](){
-        // Remove recent file from list and menu
-        mRecentFilenames.removeAll(filename);
-        mRecentsMenu.removeAction(action);
-        saveRecentFileListToSettings();
-    });
-    connect(item, &MenuItem::openFolderButtonClicked, [=](){
-        // Open folder containing the file
-        QUrl url = QUrl::fromLocalFile(QFileInfo(filename).path());
-        QDesktopServices::openUrl(url);
-    });
+    // Set up open button and recents menu
 
-    return action;
+    QToolButton* tb = new QToolButton();
+    tb->setDefaultAction(ui->actionOpen);
+    tb->setMenu(&mRecentsMenu);
+    tb->setIcon(ui->actionOpen->icon());
+    tb->setPopupMode(QToolButton::MenuButtonPopup);
+    ui->toolBar->insertWidget(ui->actionOpen, tb);
+    ui->toolBar->removeAction(ui->actionOpen);
+    ui->actionNo_recent_files->setEnabled(false);
 }
 
-void MainWindow::updateButtonsEnabledBasedOnListSelection()
+void MainWindow::setupSaveButtonMenu()
 {
-    bool enable = (ui->boardWidget->selectedList() != nullptr);
+    // Set up save button and save-as in submenu
 
-    ui->actionMove_List_Left->setEnabled(enable);
-    ui->actionMove_List_Right->setEnabled(enable);
-    ui->actionDelete_List->setEnabled(enable);
+    QToolButton* tbsave = new QToolButton();
+    tbsave->setDefaultAction(ui->actionSave);
+    QMenu* mnopen = new QMenu(this);
+    mnopen->addAction(ui->actionSave_As);
+    tbsave->setMenu(mnopen);
+    tbsave->setIcon(ui->actionSave->icon());
+    tbsave->setPopupMode(QToolButton::MenuButtonPopup);
+    ui->toolBar->insertWidget(ui->actionSave, tbsave);
+    ui->toolBar->removeAction(ui->actionSave);
+}
+
+void MainWindow::updateButtonsEnabledStates()
+{
+    bool disableAll = ui->stackedWidget->currentWidget() != ui->page_board;
+
+    // Buttons depending on list selection
+    bool enableListButtons = (ui->boardWidget->selectedList() != nullptr);
+    enableListButtons &= !disableAll;
+
+    ui->actionMove_List_Left->setEnabled(enableListButtons);
+    ui->actionMove_List_Right->setEnabled(enableListButtons);
+    ui->actionDelete_List->setEnabled(enableListButtons);
+
+    // Other buttons
+    ui->actionAdd_List->setEnabled(!disableAll);
+}
+
+void MainWindow::showRecentsPage()
+{
+    ui->stackedWidget->setCurrentWidget(ui->page_recents);
+    updateButtonsEnabledStates();
+}
+
+void MainWindow::showMainBoardPage()
+{
+    ui->stackedWidget->setCurrentWidget(ui->page_board);
+    updateButtonsEnabledStates();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -378,5 +423,6 @@ void MainWindow::on_actionNew_Board_triggered()
 {
     if (canBoardBeClosed()) {
         forceNewBoard();
+        showMainBoardPage();
     }
 }

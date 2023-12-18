@@ -1,4 +1,7 @@
 #include "mainwindow.h"
+
+#include "signalFunction.h"
+
 #include <QApplication>
 #include <QFile>
 
@@ -19,10 +22,10 @@ int main(int argc, char *argv[])
         // it gets called after the mainwindow has been setup and shown.
         // Otherwise, the cards potentially don't resize correctly.
         MainWindow* wptr = &w;
-        QMetaObject::invokeMethod(wptr, [=]()
+        SignalFunction::call(wptr, [=]()
         {
             wptr->openFile(toOpen);
-        }, Qt::QueuedConnection);
+        });
     }
 
     return a.exec();
