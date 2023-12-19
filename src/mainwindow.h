@@ -39,7 +39,11 @@ public:
         }
 
         // If we are here, the list didn't already contain the filename
-        mItems.insert(index, filename);
+        if (index >= 0) {
+            mItems.insert(index, filename);
+        } else {
+            mItems.append(filename);
+        }
         int actualIndex = mItems.indexOf(filename);
         emit itemAdded(filename, actualIndex);
     }
@@ -199,6 +203,8 @@ private:
     MenuItem* createItemWidget(QString filename)
     {
         MenuItem* item = new MenuItem(filename);
+        item->setBackgroundNotFilled();
+        item->setHighlightEnabled(false);
         connect(item, &MenuItem::removeButtonClicked, [=]()
         {
             mRecents->removeItem(filename);

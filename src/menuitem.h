@@ -17,6 +17,12 @@ public:
     void setText(QString text);
     QString text();
 
+    void setBackgroundToWindow();
+    void setBackgroundToBase();
+    void setBackgroundNotFilled();
+
+    void setHighlightEnabled(bool enable);
+
 signals:
     void removeButtonClicked();
     void openFolderButtonClicked();
@@ -24,6 +30,8 @@ signals:
 private:
     QHBoxLayout* layout;
     QLabel* label;
+    bool mHighlightEnabled = true;
+    QPalette::ColorRole mBackgroundColorRole = QPalette::Window;
 
     // QWidget interface
 protected:

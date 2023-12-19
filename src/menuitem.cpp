@@ -2,6 +2,9 @@
 
 MenuItem::MenuItem(QString text, QWidget *parent) : QWidget(parent)
 {
+    setBackgroundRole(mBackgroundColorRole);
+    setAutoFillBackground(true);
+
     setContentsMargins(5,0,5,0);
 
     layout = new QHBoxLayout(this);
@@ -44,18 +47,42 @@ QString MenuItem::text()
     return label->text();
 }
 
+void MenuItem::setBackgroundToWindow()
+{
+    mBackgroundColorRole = QPalette::Window;
+    setBackgroundRole(mBackgroundColorRole);
+}
+
+void MenuItem::setBackgroundToBase()
+{
+    mBackgroundColorRole = QPalette::Base;
+    setBackgroundRole(mBackgroundColorRole);
+}
+
+void MenuItem::setBackgroundNotFilled()
+{
+    setAutoFillBackground(false);
+}
+
+void MenuItem::setHighlightEnabled(bool enable)
+{
+    mHighlightEnabled = enable;
+}
+
 void MenuItem::enterEvent(QEvent *event)
 {
-    setBackgroundRole(QPalette::Highlight);
-    setAutoFillBackground(true);
+    if (mHighlightEnabled) {
+        setBackgroundRole(QPalette::Highlight);
+    }
 
     event->ignore();
 }
 
 void MenuItem::leaveEvent(QEvent *event)
 {
-    setBackgroundRole(QPalette::Window);
-    setAutoFillBackground(true);
+    if (mHighlightEnabled) {
+        setBackgroundRole(mBackgroundColorRole);
+    }
 
     event->ignore();
 }
