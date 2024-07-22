@@ -1,6 +1,8 @@
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
 
+#include "version.h"
+
 #include <QDialog>
 
 namespace Ui {

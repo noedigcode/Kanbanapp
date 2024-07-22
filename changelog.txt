@@ -1,20 +1,30 @@
 Changelog
 =========
 
-[1.0.4] - Unreleased
---------------------
+[1.1.0] - July 2024
+-------------------
 
 Added
 
+- Card default colour is now unspecified and GUI then uses system background colour
+  (Default card colours saved as empty strings, hence the middle version number increase)
+- Card text colour is now black or white, depending on the brightness of the background
+- Add card menu entry to reset card colour
 - Pan (scroll) board horizontally with middle-click drag
 - Scroll board horizontally with mouse wheel while Shift is held
 - Ctrl+Enter shortcut for creating a new card now works with the numpad Enter too
+- Recents list when startin up
+- Show changelog in about dialog
+- Add version and help command-line arguments
 
-Changes
+Changed
 
 - Merge save and save-as buttons, with save-as now in a submenu
+- When a file fails to open, create a new board so the incorrectly loaded file
+  can't accidentally be overwritten
+- Update about dialog layout - image at top and content now labels to use system theme
 
-Fixes
+Fixed
 
 - Fix notes not resizing correctly when a file is opened from the command-line on some systems
 

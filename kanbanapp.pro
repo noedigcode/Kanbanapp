@@ -38,7 +38,8 @@ HEADERS += \
         src/kanbanboardwidget.h \
         src/aboutdialog.h \
         src/menuitem.h \
-        src/signalFunction.h
+        src/signalFunction.h \
+        src/version.h
 
 FORMS += \
         src/mainwindow.ui \
@@ -47,7 +48,8 @@ FORMS += \
         src/kanbanboardwidget.ui \
         src/aboutdialog.ui
 
-RESOURCES += res/icons.qrc
+RESOURCES += res/icons.qrc \
+    res/text.qrc
 
 # Windows icon
 win32:RC_FILE += res/windowsicon.rc

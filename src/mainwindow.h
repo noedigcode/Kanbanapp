@@ -6,6 +6,7 @@
 #include "kanbanboardwidget.h"
 #include "menuitem.h"
 #include "signalFunction.h"
+#include "version.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -281,7 +282,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    const QString mAppname = "Kanbanapp";
     const QString mExtension = ".kanban";
     const QString mFileFilter = "Kanbanapp (*.kanban);; All files (*)";
     Board mKanbanBoard;

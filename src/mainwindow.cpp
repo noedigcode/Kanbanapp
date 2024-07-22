@@ -10,6 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
              "noedig.com", "Kanbanapp")
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%1 %2").arg(APP_NAME).arg(APP_VERSION));
+
     ui->groupBox_debug->setVisible(false);
     setCurrentFilename("");
 
@@ -167,7 +170,7 @@ void MainWindow::setCurrentFilename(QString filename)
     } else {
         basename = QFileInfo(filename).completeBaseName();
     }
-    setWindowTitle(QString("%1 - %2").arg(basename, mAppname));
+    setWindowTitle(QString("%1 - %2 %3").arg(basename).arg(APP_NAME).arg(APP_VERSION));
 }
 
 bool MainWindow::canBoardBeClosed()
@@ -175,7 +178,7 @@ bool MainWindow::canBoardBeClosed()
     bool close = true;
     if (isFileModified()) {
         QMessageBox mb;
-        mb.setWindowTitle(mAppname);
+        mb.setWindowTitle(APP_NAME);
         mb.setIcon(QMessageBox::Question);
         mb.setWindowIcon(this->windowIcon());
         mb.setText("Do you want to save your changes?");
@@ -406,7 +409,7 @@ void MainWindow::on_actionDelete_List_triggered()
     if (!selectedList) { return; }
 
     QMessageBox mb;
-    mb.setWindowTitle(mAppname);
+    mb.setWindowTitle(APP_NAME);
     mb.setIcon(QMessageBox::Question);
     mb.setWindowIcon(this->windowIcon());
     mb.setText("Are you sure you want to delete list '" +

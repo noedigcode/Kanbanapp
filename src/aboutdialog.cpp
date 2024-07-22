@@ -11,6 +11,19 @@ AboutDialog::AboutDialog(QString settingsPath, QWidget *parent) :
     QString text = ui->label_settingsPath->text();
     text.replace("%SETTINGS_PATH%", settingsPath);
     ui->label_settingsPath->setText(text);
+
+    text = ui->label_appInfo->text();
+    text.replace("%APP_VERSION%", APP_VERSION);
+    text.replace("%APP_YEAR_FROM%", APP_YEAR_FROM);
+    text.replace("%APP_YEAR%", APP_YEAR);
+    ui->label_appInfo->setText(text);
+
+    QString changelog = "Could not load changelog";
+    QFile f("://changelog");
+    if (f.open(QIODevice::ReadOnly)) {
+        changelog = f.readAll();
+    }
+    ui->plainTextEdit->setPlainText(changelog);
 }
 
 AboutDialog::~AboutDialog()
