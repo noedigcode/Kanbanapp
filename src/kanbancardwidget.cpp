@@ -84,7 +84,7 @@ void KanbanCardWidget::setColor(QColor color)
 
 void KanbanCardWidget::onColorAction()
 {
-    QColor c = QColorDialog::getColor();
+    QColor c = QColorDialog::getColor(mCard->color());
     if (c.isValid()) {
         mCard->setColor(c);
     }

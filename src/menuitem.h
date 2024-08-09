@@ -7,6 +7,9 @@
 #include <QToolButton>
 #include <QWidget>
 
+/* A widget to be used as a menu item containing a text label, remove button
+ * and open folder button. The widget is highlighted when the mouse hovers over
+ * it. */
 class MenuItem : public QWidget
 {
     Q_OBJECT
@@ -33,7 +36,6 @@ private:
     bool mHighlightEnabled = true;
     QPalette::ColorRole mBackgroundColorRole = QPalette::Window;
 
-    // QWidget interface
 protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;

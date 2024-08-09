@@ -28,7 +28,8 @@ SOURCES += \
         src/kanbancardwidget.cpp \
         src/kanbanboardwidget.cpp \
         src/aboutdialog.cpp \
-        src/menuitem.cpp
+        src/menuitem.cpp \
+        src/recents.cpp
 
 HEADERS += \
         src/mainwindow.h \
@@ -38,6 +39,7 @@ HEADERS += \
         src/kanbanboardwidget.h \
         src/aboutdialog.h \
         src/menuitem.h \
+        src/recents.h \
         src/signalFunction.h \
         src/version.h
 
