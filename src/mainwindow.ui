@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>847</width>
-    <height>619</height>
+    <width>843</width>
+    <height>616</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_board">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -109,38 +109,19 @@
          <number>50</number>
         </property>
         <item row="0" column="0">
-         <widget class="QFrame" name="frame">
-          <property name="styleSheet">
-           <string notr="true"/>
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
           </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
+          <property name="text">
+           <string>Recent boards</string>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="font">
-                <font>
-                 <pointsize>16</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Recent boards</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QListWidget" name="listWidget_recents"/>
-           </item>
-          </layout>
          </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QListWidget" name="listWidget_recents"/>
         </item>
        </layout>
       </widget>
