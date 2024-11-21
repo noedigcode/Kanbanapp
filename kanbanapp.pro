@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += src
 
 SOURCES += \
+        src/gidfile.cpp \
         src/main.cpp \
         src/mainwindow.cpp \
         src/kanbanlistwidget.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
         src/recents.cpp
 
 HEADERS += \
+        src/gidfile.h \
         src/mainwindow.h \
         src/kanbanlistwidget.h \
         src/kanban.h \

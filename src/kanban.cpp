@@ -175,32 +175,23 @@ QByteArray Board::toJsonText()
     return doc.toJson();
 }
 
-bool Board::saveToFile(QString filename)
+GidFile::Result Board::saveToFile(QString filename)
 {
-    QFile file(filename);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        // Error opening file
-        return false;
-    }
-    file.write( this->toJsonText() );
-    file.close();
-    return true;
+    return GidFile::write(filename, this->toJsonText());
 }
 
-/* Loads board from specified filename and returns true if file could be read,
- * false otherwise. Optional parseErrorString is set to the Json parsing error
- * string, or not assigned if no parsing error occurred. */
-bool Board::loadFromFile(QString filename, QString *parseErrorString)
+/* Loads board from specified filename and returns the read result.
+ * Optional parseErrorString is set to the Json parsing error string, or not
+ * assigned if no parsing error occurred. */
+GidFile::Result Board::loadFromFile(QString filename, QString *parseErrorString)
 {
-    QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        // Error opening file
-        return false;
+    GidFile::ReadResult r = GidFile::read(filename);
+    if (!r.result.success) {
+        return r.result;
     }
 
     QJsonParseError parseError;
-    QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &parseError);
-    file.close();
+    QJsonDocument doc = QJsonDocument::fromJson(r.data, &parseError);
 
     if (parseErrorString) {
         if (parseError.error != QJsonParseError::NoError) {
@@ -211,7 +202,7 @@ bool Board::loadFromFile(QString filename, QString *parseErrorString)
     QJsonObject obj = doc.object();
     this->fromJsonObject(obj);
 
-    return true;
+    return r.result;
 }
 
 QJsonObject Card::toJson()

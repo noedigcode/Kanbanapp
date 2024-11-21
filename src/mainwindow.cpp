@@ -47,8 +47,8 @@ void MainWindow::openFile(QString filename)
     setCurrentFilename(filename);
 
     QString parseErrorString;
-    bool ok = mKanbanBoard.loadFromFile(filename, &parseErrorString);
-    if (ok) {
+    GidFile::Result r = mKanbanBoard.loadFromFile(filename, &parseErrorString);
+    if (r.success) {
         mOriginalFileContents = mKanbanBoard.toJsonText();
         if (!parseErrorString.isEmpty()) {
             QMessageBox::critical(this, "Open",
@@ -59,7 +59,7 @@ void MainWindow::openFile(QString filename)
             forceNewBoard();
         }
     } else {
-        QMessageBox::critical(this, "Open", "Could not open file.");
+        QMessageBox::critical(this, "Open", "Could not open file: " + r.errorString);
         // Create new file so the incorrectly loaded file doesn't get
         // overwritten accidentally
         forceNewBoard();
@@ -145,13 +145,13 @@ bool MainWindow::saveAs()
 
 bool MainWindow::writeToFile(QString filename)
 {
-    bool ok = mKanbanBoard.saveToFile(filename);
-    if (ok) {
+    GidFile::Result r = mKanbanBoard.saveToFile(filename);
+    if (r.success) {
         mOriginalFileContents = mKanbanBoard.toJsonText();
     } else {
-        QMessageBox::critical(this, "Save", "Could not save file.");
+        QMessageBox::critical(this, "Save", "Could not save file: " + r.errorString);
     }
-    return ok;
+    return r.success;
 }
 
 void MainWindow::setCurrentFilename(QString filename)

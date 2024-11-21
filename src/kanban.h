@@ -1,8 +1,9 @@
 #ifndef KANBAN_H
 #define KANBAN_H
 
+#include "gidfile.h"
+
 #include <QColor>
-#include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -84,8 +85,8 @@ public:
     void fromJsonObject(QJsonObject jsonObject);
     QByteArray toJsonText();
 
-    bool saveToFile(QString filename);
-    bool loadFromFile(QString filename, QString* parseErrorString = nullptr);
+    GidFile::Result saveToFile(QString filename);
+    GidFile::Result loadFromFile(QString filename, QString* parseErrorString = nullptr);
 
 signals:
     void listAdded(KanbanList* list);
