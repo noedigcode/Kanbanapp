@@ -11,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    if (settings.value("maximized", false).toBool()) {
+        this->setWindowState(Qt::WindowMaximized);
+    }
+
     setWindowTitle(QString("%1 %2").arg(APP_NAME).arg(APP_VERSION));
 
     ui->groupBox_debug->setVisible(false);
@@ -38,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    bool fullscreen = this->windowState() & Qt::WindowMaximized;
+    settings.setValue("maximized", fullscreen);
+
     delete ui;
 }
 
