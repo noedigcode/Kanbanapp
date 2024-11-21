@@ -23,6 +23,7 @@ AboutDialog::AboutDialog(QString settingsPath, QWidget *parent) :
     if (f.open(QIODevice::ReadOnly)) {
         changelog = f.readAll();
     }
+    ui->plainTextEdit->setFont(getMonospaceFont());
     ui->plainTextEdit->setPlainText(changelog);
 }
 
@@ -34,4 +35,18 @@ AboutDialog::~AboutDialog()
 void AboutDialog::on_pushButton_Ok_clicked()
 {
     this->hide();
+}
+
+QFont AboutDialog::getMonospaceFont()
+{
+    QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    if (!QFontInfo(font).fixedPitch()) {
+        // Try backup method
+        QStringList families({"monospace", "consolas", "courier new", "courier"});
+        foreach (QString family, families) {
+            font.setFamily(family);
+            if (QFontInfo(font).fixedPitch()) { break; }
+        }
+    }
+    return font;
 }
