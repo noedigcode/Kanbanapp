@@ -4,9 +4,21 @@ Changelog
 [1.1.1] - Unreleased
 --------------------
 
+Added
+
+- Safe file saving and loading, even when disk is full or power is lost during
+  saving.
+- Save the maximized state of the window when quitting and restore it at startup.
+
 Changed
 
 - The color pick dialog is opened with the current card color as starting point.
+- Tweak startup screen visuals.
+
+Fixed
+
+- Ensure monospace font is used for the changelog on the about screen in a more
+  robust way.
 
 
 [1.1.0] - July 2024
@@ -21,7 +33,7 @@ Added
 - Pan (scroll) board horizontally with middle-click drag
 - Scroll board horizontally with mouse wheel while Shift is held
 - Ctrl+Enter shortcut for creating a new card now works with the numpad Enter too
-- Recents list when startin up
+- Recents list when starting up
 - Show changelog in about dialog
 - Add version and help command-line arguments
 
