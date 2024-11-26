@@ -1,6 +1,8 @@
 #include "kanbanlistwidget.h"
 #include "ui_kanbanlistwidget.h"
 
+#include "Utilities.h"
+
 #include <QKeyEvent>
 
 KanbanListWidget::KanbanListWidget(QWidget *parent) :
@@ -8,6 +10,14 @@ KanbanListWidget::KanbanListWidget(QWidget *parent) :
     ui(new Ui::KanbanListWidget)
 {
     ui->setupUi(this);
+
+    this->setMinimumWidth(
+                Utilities::scaleWithPrimaryScreenScalingFactor(
+                    this->minimumSize()).width());
+    this->setMaximumWidth(
+                Utilities::scaleWithPrimaryScreenScalingFactor(
+                    this->maximumSize()).width());
+
     setTitleToolbuttonSelected(false);
 
     ui->lineEdit->installEventFilter(this);

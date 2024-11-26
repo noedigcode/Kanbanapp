@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "Utilities.h"
+
 #include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
              "noedig.com", "Kanbanapp")
 {
     ui->setupUi(this);
+
+    this->resize(Utilities::scaleWithPrimaryScreenScalingFactor(this->size()));
 
     if (settings.value("maximized", false).toBool()) {
         this->setWindowState(Qt::WindowMaximized);
@@ -368,6 +372,8 @@ void MainWindow::on_actionAbout_triggered()
     if (!aboutDialog) {
         aboutDialog = new AboutDialog(settings.fileName(), this);
         aboutDialog->setWindowModality(Qt::ApplicationModal);
+        aboutDialog->resize(Utilities::scaleWithPrimaryScreenScalingFactor(
+                                aboutDialog->size()));
     }
     aboutDialog->show();
 }
