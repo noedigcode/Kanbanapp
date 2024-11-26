@@ -22,8 +22,6 @@ private slots:
 
 private:
     Ui::AboutDialog *ui;
-
-    QFont getMonospaceFont();
 };
 
 #endif // ABOUTDIALOG_H
