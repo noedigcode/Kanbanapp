@@ -2,7 +2,7 @@
 #define VERSION_H
 
 #define APP_NAME "Kanbanapp"
-#define APP_VERSION "1.1.0"
+#define APP_VERSION "1.1.1-rc1"
 #define APP_YEAR "2024"
 #define APP_YEAR_FROM "2020"
 

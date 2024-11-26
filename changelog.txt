@@ -19,6 +19,7 @@ Fixed
 
 - Ensure monospace font is used for the changelog on the about screen in a more
   robust way.
+- Scale initial window size and list width based on screen DPI.
 
 
 [1.1.0] - July 2024
