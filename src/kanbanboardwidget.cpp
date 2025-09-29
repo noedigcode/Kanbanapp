@@ -86,7 +86,7 @@ void KanbanBoardWidget::focusListTitle(KanbanList *list)
     w->focusTitle();
 }
 
-void KanbanBoardWidget::addList(KanbanList *list)
+void KanbanBoardWidget::addList(KanbanList *list, int index)
 {
     KanbanListWidget* w = new KanbanListWidget();
 
@@ -104,7 +104,10 @@ void KanbanBoardWidget::addList(KanbanList *list)
 
     // The emptyBoardLabel and stretch spacer always remain in the layout, so
     // lists have to be inserted to the left of them, thus count - 2.
-    layout->insertWidget(layout->count() - 2, w);
+    int maxIndex = layout->count() - 2;
+    if (index == -1) { index = maxIndex; }
+    index = qMin(index, maxIndex);
+    layout->insertWidget(index, w);
 }
 
 void KanbanBoardWidget::moveList(KanbanList *list, int newIndex)

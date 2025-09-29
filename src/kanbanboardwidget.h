@@ -30,7 +30,7 @@ signals:
     void selectedListChanged(KanbanList* list);
 
 public slots:
-    void addList(KanbanList* list);
+    void addList(KanbanList* list, int index = -1);
     void moveList(KanbanList* list, int newIndex);
     void removeList(KanbanList* list);
 

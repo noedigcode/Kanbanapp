@@ -118,11 +118,16 @@ QList<KanbanList *> Board::lists()
     return mLists;
 }
 
-void Board::addList(KanbanList *list)
+void Board::addList(KanbanList *list, int index)
 {
     list->setParent(this);
-    mLists.append(list);
-    emit listAdded(list);
+
+    if (index == -1) { index = mLists.count(); }
+    if (index < 0) { index = 0; }
+    if (index > mLists.count()) { index = mLists.count(); }
+    mLists.insert(index, list);
+
+    emit listAdded(list, index);
 }
 
 void Board::moveList(KanbanList *list, int newIndex)

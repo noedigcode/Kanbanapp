@@ -76,7 +76,7 @@ public:
     explicit Board(QObject *parent = nullptr);
 
     QList<KanbanList*> lists();
-    void addList(KanbanList* list);
+    void addList(KanbanList* list, int index = -1);
     void moveList(KanbanList* list, int newIndex);
     void removeList(KanbanList* list);
     void clear();
@@ -89,7 +89,7 @@ public:
     GidFile::Result loadFromFile(QString filename, QString* parseErrorString = nullptr);
 
 signals:
-    void listAdded(KanbanList* list);
+    void listAdded(KanbanList* list, int index);
     void listMoved(KanbanList* list, int newIndex);
     void listRemoved(KanbanList* list);
 

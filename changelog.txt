@@ -14,6 +14,7 @@ Changed
 
 - The color pick dialog is opened with the current card color as starting point.
 - Tweak startup screen visuals.
+- When adding a list, add it after the currently selected list.
 
 Fixed
 

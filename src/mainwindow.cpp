@@ -380,9 +380,17 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionAdd_List_triggered()
 {
+    // Index to insert list is after currently selected, or at end if nothing
+    // is selected.
+    int index = mKanbanBoard.lists().count();
+    KanbanList* selectedList = ui->boardWidget->selectedList();
+    if (selectedList) {
+        index = mKanbanBoard.lists().indexOf(selectedList) + 1;
+    }
+
     KanbanList* list = new KanbanList();
     list->setTitle(QString("New List %1").arg(mKanbanBoard.lists().count()+1));
-    mKanbanBoard.addList(list);
+    mKanbanBoard.addList(list, index);
 
     ui->boardWidget->ensureListVisible(list);
     ui->boardWidget->focusListTitle(list);
